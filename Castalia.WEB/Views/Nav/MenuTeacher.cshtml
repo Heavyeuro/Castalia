@@ -1,0 +1,16 @@
+﻿@model IEnumerable<string>
+
+
+@foreach (var link in Model)
+{
+    @Html.RouteLink(link, new
+{
+    controller = "Home",
+    action = "SelectionByTeacher",
+    sortingParam = link,
+    page = 1
+}, new
+{
+    @class = "btn btn-block btn-primary btn-lg custom" + (link == ViewBag.SelectedTeacher ? " btn-warning " : "")
+})
+}

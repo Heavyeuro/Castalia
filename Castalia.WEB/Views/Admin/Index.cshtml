@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Castalia.Domain.Entities.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading justify-content-end">
+        <h2>
+            Admin`s panel "Courses"
+        </h2>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Teacher.TeacherName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Topic.TopicName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DurationDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AmountOfStudents)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.TeacherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Topic.TopicName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DurationDays)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountOfStudents)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+            }
+
+        </table>
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Add course", "Create", null,
+            new { @class = "btn btn-danger" })
+    </div>
+</div>

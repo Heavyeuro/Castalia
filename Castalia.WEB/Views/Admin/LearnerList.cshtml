@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Castalia.Domain.Entities.Learner>
+
+@{
+    ViewBag.Title = "LearnerList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>LearnerList</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    foreach (var item in Model)
+    {
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="checkbox">
+            @Html.Label(item.LearnerName)
+                    @Html.CheckBox(item.LearnerName, item.IsBlocked)
+                </div>
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}

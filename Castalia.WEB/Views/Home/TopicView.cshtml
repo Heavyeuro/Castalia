@@ -1,0 +1,35 @@
+﻿@model Castalia.WEB.Models.CourseListViewModel
+@using Castalia.WEB.Heplers
+
+@{
+    ViewBag.Title = "Courses";
+} 
+<div class="row">
+    <h4>Sort by: </h4>
+@foreach (var order in Model.SortedParam)
+{
+    <div class="col-lg-3 ">
+        @Html.ActionLink(order.Value, "SelectionByTopic",
+       new { sortOrder = order.Key, Page = Model.PagingInfo.CurrentPage, sortingParam = Model.CurrentParameter })
+    </div>
+}
+</div>
+
+<div class="row">
+@foreach (var p in @Model.Courses)
+{
+<div class="card text-white col-5 bg-primary m-3" style="max-width: 20rem;">
+    <div class="card-header">@p.CourseName  <div class="text-lg-right">Topic name: @p.Topic.TopicName</div></div>
+    <div class="card-body">
+        <h6 class="card-title">Teacher: @p.Teacher.TeacherName @if (p.Teacher == null){ <div>The teacher has not been appointed</div>}</h6>
+        <p class="card-text">Duration (days): @p.DurationDays</p>
+        Start date: @p.StartDate
+    </div>
+</div>     
+}
+</div>
+
+    <div>
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("SelectionByTopic",
+       new { page = x, sortingParam = Model.CurrentParameter }))
+    </div>

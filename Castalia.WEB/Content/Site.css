@@ -1,0 +1,79 @@
+﻿
+body {
+    padding-top: 1px;
+    padding-bottom: 5px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    margin: 0;
+}
+
+.main {
+    flex-grow: 1;
+}
+
+
+.footer {
+    padding: 20px;
+    background: #D7A573;
+}
+
+.custom {
+    margin-bottom: 10px;
+}
+
+#registerLink {
+    padding: 20px;
+    color: white;
+}
+
+#loginLink {
+    color: white;
+}
+
+
+/*clases form validation*/
+.field-validation-error {
+    color: #f00;
+}
+
+.validation-summary-errors {
+    color: #f00;
+    font-weight: bold;
+}
+
+.input-validation-error {
+    border: 2px solid #f00;
+    background-color: #fee;
+}
+
+input[type="checkbox"].input-validation-error {
+    outline: 2px solid #f00;
+}
