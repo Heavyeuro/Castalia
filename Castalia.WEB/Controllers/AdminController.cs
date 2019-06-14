@@ -12,6 +12,7 @@ namespace Castalia.WEB.Controllers
     public class AdminController : Controller
     {
         IUnitOfWork UO;
+        public int PageSize = 3;
 
         public AdminController(IUnitOfWork repo)
         {
@@ -86,16 +87,46 @@ namespace Castalia.WEB.Controllers
         }
 
         [HttpGet]
-        public ActionResult LearnerList ()
+        public ActionResult LearnerList (int page=1)
         {
-            return View(UO.Learners.GetAll());
+            LearnerListViewModel learnerList = new LearnerListViewModel()
+            {
+                Learners = UO.Learners.GetAll().Skip((page - 1) * PageSize)
+                   .Take(PageSize),
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = UO.Learners.GetAll().Count()
+                }
+            };
+            
+            return View(learnerList);
         }
 
         [HttpPost]
         public ActionResult LearnerList( IEnumerable<Learner> learners)
         {
-
             return View(UO.Learners.GetAll());
+        }
+
+        public ActionResult ManagingStudents(int Id,int page)
+        {
+
+            UO.Learners.Get(Id).IsBlocked = !UO.Learners.Get(Id).IsBlocked;
+            UO.Save();
+            LearnerListViewModel learnerList = new LearnerListViewModel()
+            {
+                Learners = UO.Learners.GetAll().Skip((page - 1) * PageSize)
+                   .Take(PageSize),
+                PagingInfo = new PagingInfo()
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = UO.Learners.GetAll().Count()
+                }
+            };
+            return View("LearnerList", learnerList);
         }
     }
 }

@@ -49,12 +49,12 @@ body {
     margin-bottom: 10px;
 }
 
-#registerLink {
+#registerLink, #logOff {
     padding: 20px;
     color: white;
 }
 
-#loginLink {
+#loginLink, #logoutForm, #manageName {
     color: white;
 }
 

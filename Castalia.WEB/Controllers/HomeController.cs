@@ -32,8 +32,7 @@ namespace Castalia.WEB.Controllers
             else
                 foreach (var a in UO.Topics.GetAll())
                     if (a.TopicName == sortingParam) amountOfItems++;
-
-            CourseListViewModel model = CourseListInitializer(page, amountOfItems, sortOrder, sortingParam);
+                        CourseListViewModel model = CourseListInitializer(page, amountOfItems, sortOrder, sortingParam);
 
             model.Courses = SortingCourses(UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam)
@@ -67,10 +66,13 @@ namespace Castalia.WEB.Controllers
 
             return View("TeacherView", model);
         }
+        public ActionResult Index()
+        {
+            return RedirectToAction("SelectionByTopic");
+        }
 
         public CourseListViewModel CourseListInitializer(int page, int amountOfItems, string sortOrder, string sortingParam)
-        {
-
+        { 
 
             Dictionary<string, string> sortedParam = new Dictionary<string, string>(3);
             sortedParam.Add(sortOrder == "name" ? "name_desc" : "name", sortOrder == "name" ? "Names (A-Z)" : "Names (Z-A)");

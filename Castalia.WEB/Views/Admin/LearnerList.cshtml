@@ -1,32 +1,32 @@
-﻿@model IEnumerable<Castalia.Domain.Entities.Learner>
+﻿@model Castalia.WEB.Models.LearnerListViewModel
 
 @{
     ViewBag.Title = "LearnerList";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>LearnerList</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
+@Html.AntiForgeryToken()
 
-    foreach (var item in Model)
+<div class="row">
+    @foreach (var item in Model.Learners)
     {
-
-        <div class="form-group">
-            <div class="col-md-10">
-                <div class="checkbox">
-            @Html.Label(item.LearnerName)
-                    @Html.CheckBox(item.LearnerName, item.IsBlocked)
-                </div>
+        <div class="card border-primary m-3 col-5" style="max-width: 20rem;">
+            <div class="card-header"><h4>@item.LearnerName</h4></div>
+            <div class="card-body">
+                Status:
+                @if (item.IsBlocked)
+                {<p>Student is blocked</p>}
+                else
+                { <p>Student isn`t blocked</p>}
+                <p class="card-text">@Html.ActionLink(item.IsBlocked ? "Unblock him" : "Block him", "ManagingStudents", new { Id = item.Id ,page=Model.PagingInfo.CurrentPage})</p>
             </div>
         </div>
     }
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-}
+</div>
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("LearnerList",
+   new { page = x}))
+</div>

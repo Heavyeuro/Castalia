@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.WEB", "Castalia.WE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Tests", "Castalia.Tests\Castalia.Tests.csproj", "{29C142EE-BB5F-49FA-A6E1-7D820159B895}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Domain", "Castalia-Faculty.Domain\Castalia.Domain.csproj", "{A724BC08-4D09-4977-BCCF-B91FF46AD7DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Domain", "Castalia.Domain\Castalia.Domain.csproj", "{A724BC08-4D09-4977-BCCF-B91FF46AD7DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

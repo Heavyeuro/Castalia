@@ -21,7 +21,9 @@
 <div class="card text-white col-5 bg-primary m-3" style="max-width: 20rem;">
     <div class="card-header">@p.CourseName  <div class="text-lg-right">Topic name: @p.Topic.TopicName</div></div>
     <div class="card-body">
-        <h6 class="card-title">Teacher: @p.Teacher.TeacherName @if (p.Teacher == null){ <div>The teacher has not been appointed</div>}</h6>
+        <h6 class="card-title">Teacher: @p.Teacher.TeacherName @if (p.Teacher == null)
+        {<div>The teacher has not been appointed</div>}</h6>
+        <p>Amount of the students: @p.AmountOfStudents</p>
         <p class="card-text">Duration (days): @p.DurationDays</p>
         Start date: @p.StartDate
     </div>

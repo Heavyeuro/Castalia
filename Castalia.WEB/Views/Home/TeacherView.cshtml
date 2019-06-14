@@ -5,7 +5,6 @@
     ViewBag.Title = "Courses";
 }
 
-
 <div class="row">
     <h4>Sort by: </h4>
     @foreach (var order in Model.SortedParam)
@@ -24,6 +23,7 @@
             <div class="card-body">
                 <h6 class="card-title">Teacher: @p.Teacher.TeacherName @if (p.Teacher == null)
                 {<div>The teacher has not been appointed</div>}</h6>
+                <p>Amount of the students: @p.AmountOfStudents</p>
                 <p class="card-text">Duration (days): @p.DurationDays</p>
                 Start date: @p.StartDate
             </div>

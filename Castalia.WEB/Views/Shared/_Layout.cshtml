@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
             <img src="~/Content/Images/brick-wall-3144597.jpg" width="110" height="40" class="d-inline-block align-top" alt="">
-            @Html.ActionLink("Castalia", null, "Home", new { area = "" }, new { @class = "navbar-brand " })
+            @Html.ActionLink("Castalia", "SelectionByTopic", "Home", new { area = "" }, new { @class = "navbar-brand " })
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,23 +31,30 @@
     </nav>
     <div class="container container-fluid  jumbotron " style="  width:80%; margin:auto; background-color:aqua; ">
         <div class="row">
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-success">@TempData["message"]</div>
+            }
             <main class="col-sm-9">
                 @RenderBody()
             </main>
-            <div class="col-sm-3 " style="background-color:aquamarine">
-                <h2>Selection</h2>
-                @Html.ActionLink("To all courses", "SelectionByTeacher", "Home", null,
-        new { @class = "btn btn-block btn-primary btn-lg custom" })
-                <h2>ByTopic</h2>
-                @Html.Action("MenuTopic", "Nav")
-                <h2>ByTeacher</h2>
-                @Html.Action("MenuTeacher", "Nav")
-            </div>
+            @if (ViewBag.Title == "Courses")
+            {
+                <div class="col-sm-3 " style="background-color:aquamarine">
+                    <h2>Course selection</h2>
+                    @Html.ActionLink("To all courses", "SelectionByTeacher", "Home", null,
+                 new { @class = "btn btn-block btn-primary btn-lg custom" })
+                    <h2>By Topic</h2>
+                    @Html.Action("MenuTopic", "Nav")
+                    <h2>By Teacher</h2>
+                    @Html.Action("MenuTeacher", "Nav")
+                </div>
+            }
         </div>
 
     </div>
     <hr />
-    <footer id="footer" class="card-footer jumbotron-fluid">
+    <footer id="footer" class="card-footer ">
         <div class="row">
 
             <div class="offset-2">
