@@ -9,8 +9,8 @@ namespace Castalia.WEB.Models
     public class CourseListViewModel
     {
 
-        public IEnumerable<Course> Courses { get; set; }
-
+        public List<Course> Courses { get; set; }
+        public List<Teacher> Teachers { get; set; }
         /// <summary>
         /// All info about pagination
         /// </summary>

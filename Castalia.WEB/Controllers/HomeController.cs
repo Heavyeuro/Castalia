@@ -32,12 +32,12 @@ namespace Castalia.WEB.Controllers
             else
                 foreach (var a in UO.Topics.GetAll())
                     if (a.TopicName == sortingParam) amountOfItems++;
-                        CourseListViewModel model = CourseListInitializer(page, amountOfItems, sortOrder, sortingParam);
+            CourseListViewModel model = CourseListInitializer(page, amountOfItems, sortOrder, sortingParam);
 
             model.Courses = SortingCourses(UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam)
                    , sortOrder).Skip((page - 1) * PageSize)
-                   .Take(PageSize);
+                   .Take(PageSize).ToList();
 
             return View("TopicView", model);
         }
@@ -55,14 +55,13 @@ namespace Castalia.WEB.Controllers
             else
                 foreach (var a in UO.Teachers.GetAll())
                     if (a.TeacherName == sortingParam) amountOfItems++;
-             
+
 
             CourseListViewModel model = CourseListInitializer(page, amountOfItems, sortOrder, sortingParam);
 
-            model.Courses= SortingCourses(UO.Courses.GetAll()
-                    .Where(p => sortingParam == null || p.Teacher.TeacherName == sortingParam)
+            model.Courses = SortingCourses(GetCourses( UO.Courses.GetAll(),sortingParam)
                     , sortOrder).Skip((page - 1) * PageSize)
-                    .Take(PageSize);
+                    .Take(PageSize).ToList();
 
             return View("TeacherView", model);
         }
@@ -72,13 +71,13 @@ namespace Castalia.WEB.Controllers
         }
 
         public CourseListViewModel CourseListInitializer(int page, int amountOfItems, string sortOrder, string sortingParam)
-        { 
+        {
 
             Dictionary<string, string> sortedParam = new Dictionary<string, string>(3);
             sortedParam.Add(sortOrder == "name" ? "name_desc" : "name", sortOrder == "name" ? "Names (A-Z)" : "Names (Z-A)");
             sortedParam.Add(sortOrder == "duration" ? "duration_desc" : "duration", sortOrder == "duration" ? "Less duratoion" : "Greater duration");
             sortedParam.Add(sortOrder == "amount" ? "amount_desc" : "amount", sortOrder == "amount" ? "Amount of students ascending" : "Amount of students descending");
-         
+
             return new CourseListViewModel()
             {
                 PagingInfo = new PagingInfo
@@ -120,6 +119,20 @@ namespace Castalia.WEB.Controllers
             }
             return courses.ToList();
         }
+        public IEnumerable<Course> GetCourses(IEnumerable<Course> courses, string sortParam) {
+            if (!String.IsNullOrEmpty(sortParam))
+            {
+                List<Course> requiredCourses = new List<Course>();
+                foreach (var course in courses)
+                {
+                    if (course.Teacher !=null&& course.Teacher.TeacherName == sortParam) requiredCourses.Add(course);
+                }
+                return requiredCourses;
+            }
+            return courses;
+        }
     }
+    //.Where(p => sortingParam == null || p.Teacher.TeacherName == sortingParam)
 }
+
     

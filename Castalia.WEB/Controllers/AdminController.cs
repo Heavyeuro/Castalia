@@ -38,35 +38,27 @@ namespace Castalia.WEB.Controllers
         [HttpPost]
         public ActionResult Edit(CourseViewModel course,int Id)
         {
-            //transform course view model to entity
-            Course courses = new Course { Id = course.Id, AmountOfStudents = course.AmountOfStudents ,DurationDays=course.DurationDays,
-                Topic = new Topic { TopicName = course.Topic }, CourseName=course.CourseName,StartDate=course.StartDate};
             //if(string.IsNullOrEmpty(course.CourseName))
             //    ModelState.AddModelError("CourseName", "Введите свое имя");
             //Checkig for validation errors
             if (ModelState.IsValid)
            {
-                courses.Topic.Id = Id;
-                UO.Courses.Update(courses);
+                Course courses = UO.Courses.Get(course.Id);
+                courses.DurationDays = course.DurationDays;
+                courses.CourseName = course.CourseName;
+                courses.StartDate = course.StartDate;
+
+                int i = UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).Count();
+                if (i > 0) courses.Topic = UO.Topics.Get(UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).First().Id);
+                else courses.Topic = new Topic { TopicName = course.Topic };
+                UO.Save();
+
+
                 TempData["message"] = string.Format("Changes in course \"{0}\" was saved", course.CourseName);
                 return RedirectToAction("Index");
             }
            else
-                ////In case that there are val. errors sent back data
-           //{
-           //     CourseViewModel courseVM = new CourseViewModel
-           //     {
-                    
-           //         Id = Id,
-           //         AmountOfStudents = courses.AmountOfStudents,
-           //         CourseName = courses.CourseName,
-           //         DurationDays = courses.DurationDays,
-           //         StartDate = courses.StartDate,
-           //         Topic = courses.Topic.TopicName
-           //     };
-
                 return View(course);
-            //}
        }
 
         public ViewResult Create()
@@ -112,7 +104,6 @@ namespace Castalia.WEB.Controllers
 
         public ActionResult ManagingStudents(int Id,int page)
         {
-
             UO.Learners.Get(Id).IsBlocked = !UO.Learners.Get(Id).IsBlocked;
             UO.Save();
             LearnerListViewModel learnerList = new LearnerListViewModel()
@@ -127,6 +118,68 @@ namespace Castalia.WEB.Controllers
                 }
             };
             return View("LearnerList", learnerList);
+        }
+
+        public ActionResult AddTeacher(string teacherName)
+        {
+            UO.Teachers.Create(new Teacher() { TeacherName = teacherName });
+            UO.Save();
+            return View();//same as in index
+        }
+
+        public ActionResult TeacherView(int page =1)
+        {
+
+            CourseListViewModel courseList = new CourseListViewModel()
+            {
+                Courses = new List<Course>(),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize
+                }
+            };
+            courseList.Teachers = UO.Teachers.GetAll().ToList();
+            foreach(var course in UO.Courses.GetAll())
+                if (course.Teacher == null)
+                {
+                    courseList.PagingInfo.TotalItems++;
+                    courseList.Courses.Add(course);
+                }
+
+            return View(courseList);
+        }
+
+        public ActionResult AppointTeacher(int id, int teacherId)
+        {
+
+            UO.Courses.Get(id).Teacher = UO.Teachers.Get(teacherId);
+            UO.Save();
+
+            CourseListViewModel courseList = new CourseListViewModel()
+            {
+                Courses = new List<Course>(),
+                PagingInfo = new PagingInfo
+                {
+
+                    ItemsPerPage = PageSize
+                }
+            };
+
+            foreach (var course in UO.Courses.GetAll())
+                if (course.Teacher == null)
+                {
+                    courseList.PagingInfo.TotalItems++;
+                    courseList.Courses.Add(course);
+                }
+
+            return View("TeacherView", courseList);
+        }
+
+        public ActionResult AdminNav()
+        {
+     
+            return PartialView();
         }
     }
 }

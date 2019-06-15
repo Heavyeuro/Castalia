@@ -77,3 +77,9 @@ body {
 input[type="checkbox"].input-validation-error {
     outline: 2px solid #f00;
 }
+
+#mainContainer {
+    width: 80%;
+    margin: auto;
+    background-color: aqua;
+}

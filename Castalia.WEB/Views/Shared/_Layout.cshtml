@@ -19,17 +19,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarColor02">
             <ul class="navbar-nav mr-auto">
+
                 <li class="nav-item active">
                     @Html.ActionLink("Courses", "SelectionByTopic", "Home", null, new { @class = "btn btn-block btn-info btn-lg custom" })
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
+              
             </ul>
                 @Html.Partial("_LoginPartial")
         </div>
     </nav>
-    <div class="container container-fluid  jumbotron " style="  width:80%; margin:auto; background-color:aqua; ">
+    <div id="mainContainer" class="container container-fluid jumbotron">
         <div class="row">
             @if (TempData["message"] != null)
             {
@@ -38,18 +37,19 @@
             <main class="col-sm-9">
                 @RenderBody()
             </main>
+                <div class="col-sm-3 " style="background-color:aquamarine">
             @if (ViewBag.Title == "Courses")
             {
-                <div class="col-sm-3 " style="background-color:aquamarine">
                     <h2>Course selection</h2>
+                @Html.Partial("AdminNav")
                     @Html.ActionLink("To all courses", "SelectionByTeacher", "Home", null,
                  new { @class = "btn btn-block btn-primary btn-lg custom" })
                     <h2>By Topic</h2>
                     @Html.Action("MenuTopic", "Nav")
                     <h2>By Teacher</h2>
                     @Html.Action("MenuTeacher", "Nav")
-                </div>
             }
+                </div>
         </div>
 
     </div>
