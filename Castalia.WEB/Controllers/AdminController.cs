@@ -178,8 +178,9 @@ namespace Castalia.WEB.Controllers
 
         public ActionResult AdminNav()
         {
-     
             return PartialView();
         }
+
+
     }
 }

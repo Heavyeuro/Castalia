@@ -215,8 +215,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LearnerController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NavController.cs" />
+    <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,6 +229,7 @@
     <Compile Include="Models\CourseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LearnerListViewModel.cs" />
+    <Compile Include="Models\LearnerViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\TeacherViewModel.cs" />
@@ -337,9 +340,12 @@
     <Content Include="Views\Home\TopicView.cshtml" />
     <Content Include="Views\Admin\TeacherView.cshtml" />
     <Content Include="Views\Shared\AdminNav.cshtml" />
+    <Content Include="Views\Admin\_TeacherList.cshtml" />
+    <Content Include="Views\Learner\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Student\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
