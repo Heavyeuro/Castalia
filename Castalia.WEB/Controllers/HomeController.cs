@@ -32,7 +32,7 @@ namespace Castalia.WEB.Controllers
             else
                 foreach (var a in UO.Topics.GetAll())
                     if (a.TopicName == sortingParam) amountOfItems++;
-            CourseListViewModel model = CourseListInitializer( amountOfItems, sortOrder, sortingParam, page);
+            CourseListViewModel model = CourseListInitializer(amountOfItems, sortOrder, sortingParam, page);
 
             model.Courses = SortingCourses(UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam)
@@ -59,14 +59,14 @@ namespace Castalia.WEB.Controllers
                     if (a.TeacherName == sortingParam) amountOfItems++;
 
 
-            CourseListViewModel model = CourseListInitializer( amountOfItems, sortOrder, sortingParam,page);
+            CourseListViewModel model = CourseListInitializer(amountOfItems, sortOrder, sortingParam, page);
 
-            model.Courses = SortingCourses(GetCourses( UO.Courses.GetAll(),sortingParam)
+            model.Courses = SortingCourses(GetCourses(UO.Courses.GetAll(), sortingParam)
                     , sortOrder).Skip((page - 1) * PageSize)
                     .Take(PageSize).ToList();
 
             //if(User.IsInRole("student"))
-                model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
+            model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
 
             return View("TeacherView", model);
         }
@@ -77,7 +77,7 @@ namespace Castalia.WEB.Controllers
             return RedirectToAction("SelectionByTopic");
         }
 
-        public CourseListViewModel CourseListInitializer( int amountOfItems, string sortOrder, string sortingParam, int page = 1)
+        public CourseListViewModel CourseListInitializer(int amountOfItems, string sortOrder, string sortingParam, int page = 1)
         {
 
             Dictionary<string, string> sortedParam = new Dictionary<string, string>(3);
@@ -126,13 +126,14 @@ namespace Castalia.WEB.Controllers
             }
             return courses.ToList();
         }
-        public IEnumerable<Course> GetCourses(IEnumerable<Course> courses, string sortParam) {
+        public IEnumerable<Course> GetCourses(IEnumerable<Course> courses, string sortParam)
+        {
             if (!String.IsNullOrEmpty(sortParam))
             {
                 List<Course> requiredCourses = new List<Course>();
                 foreach (var course in courses)
                 {
-                    if (course.Teacher !=null&& course.Teacher.TeacherName == sortParam) requiredCourses.Add(course);
+                    if (course.Teacher != null && course.Teacher.TeacherName == sortParam) requiredCourses.Add(course);
                 }
                 return requiredCourses;
             }
@@ -140,25 +141,24 @@ namespace Castalia.WEB.Controllers
         }
 
         //implement it in view (if null dont display) 1- "can registre", 0- "already registred"
-    public  Dictionary<int, bool> StudentRefisterPosibility(List<Course> courses)
-    {
+        public Dictionary<int, bool> StudentRefisterPosibility(List<Course> courses)
+        {
             string currentStudent = HttpContext.User.Identity.Name;
             //temp
             currentStudent = "Ivanov Ivan";
             Dictionary<int, bool> studentRefisterPosibility = new Dictionary<int, bool>();
 
-            foreach(var course in courses)
+            foreach (var course in courses)
             {
-                bool registerPosibility= UO.Logs.GetAll()
-                    .Where(x => x.Lerner.LearnerName == currentStudent&&x.Course.CourseName==course.CourseName)
-                    .Count()!=0;
+                bool registerPosibility = UO.Logs.GetAll()
+                    .Where(x => x.Lerner.LearnerName == currentStudent && x.Course.CourseName == course.CourseName)
+                    .Count() != 0;
                 studentRefisterPosibility.Add(course.Id, !registerPosibility);
             }
             return studentRefisterPosibility;
-    }
+        }
 
     }
 
 }
 
-    

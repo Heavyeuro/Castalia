@@ -19,8 +19,8 @@ namespace Castalia.WEB.Controllers
         {
             UO = repo;
         }
-    
-        
+
+
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
 
@@ -28,29 +28,27 @@ namespace Castalia.WEB.Controllers
             //learnerName = "Ivanov Ivan";
             LogViewModel logModel = new LogViewModel()
             {
-                CourseStatus=courseStatus,
+                CourseStatus = courseStatus,
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                 }
-                
+
             };
-            ////temp
-            //logModel.CourseStatus="inProgress";
             switch (logModel.CourseStatus)
             {
                 case "notStarted":
-                 logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
-                 && x.Course.StartDate > DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
+                    logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
+                    && x.Course.StartDate > DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
                     break;
                 case "finished":
                     logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
                     && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
                     break;
                 case "inProgress":
-                    logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName 
-                    && x.Course.StartDate < DateTime.Now&& x.Course.StartDate.AddDays(x.Course.DurationDays) > DateTime.Now)
+                    logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
+                    && x.Course.StartDate < DateTime.Now && x.Course.StartDate.AddDays(x.Course.DurationDays) > DateTime.Now)
                     .Skip((page - 1) * PageSize).Take(PageSize).ToList();
                     break;
             }
@@ -58,7 +56,7 @@ namespace Castalia.WEB.Controllers
                     && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
 
             logModel.PagingInfo.TotalItems = logModel.Logs.Count();
-            
+
             return View(logModel);
         }
 
@@ -73,7 +71,8 @@ namespace Castalia.WEB.Controllers
             //temp
             currentStudent = "Ivanov Ivan";
             Course course = UO.Courses.Get(Id);
-            if (course.StartDate > DateTime.Now){
+            if (course.StartDate > DateTime.Now)
+            {
                 Log log = new Log()
                 {
                     RegisterDate = DateTime.Now,
@@ -84,12 +83,13 @@ namespace Castalia.WEB.Controllers
                 course.AmountOfStudents++;
                 UO.Save();
                 TempData["message"] = string.Format("Successful registration on course\"{0}\" !", course.CourseName);
-                } else
+            }
+            else
                 TempData["message"] = string.Format("Unfortunatly course \"{0}\" isn't available for registration", course.CourseName);
 
 
 
-            return RedirectToAction("SelectionByTopic","Home",null);
+            return RedirectToAction("SelectionByTopic", "Home", null);
         }
     }
 }

@@ -25,21 +25,23 @@
                 <h6 class="card-title">
                     Teacher:  @if (p.Teacher == null)
                     {@Html.Raw("The teacher has not been appointed</>")}
-                    else
-                    { @p.Teacher.TeacherName}
+                else
+                { @p.Teacher.TeacherName}
                 </h6>
                 <p>Amount of the students: @p.AmountOfStudents</p>
                 <p class="card-text">Duration (days): @p.DurationDays</p>
                 Start date: @p.StartDate.ToShortDateString()
-                @if (Model.StudentRefisterPosibility != null) {
-                if(Model.StudentRefisterPosibility.Where(x => x.Key == p.Id).First().Value) {
-                      
-                    @Html.ActionLink("Register", "Register", "Student", new { Id=p.Id},new { @class = "btn btn-block btn-primary btn-lg custom" })
-                }
-                else
+                @if (Model.StudentRefisterPosibility != null)
                 {
-                    @Html.Raw("<p>You  are already registred on this course</p>")
-                }
+                    if (Model.StudentRefisterPosibility.Where(x => x.Key == p.Id).First().Value)
+                    {
+
+                        @Html.ActionLink("Register", "Register", "Student", new { Id = p.Id }, new { @class = "btn btn-block btn-primary btn-lg custom" })
+                    }
+                    else
+                    {
+                        @Html.Raw("<p>You  are already registred on this course</p>")
+                    }
 
                 }
             </div>
@@ -47,7 +49,7 @@
     }
 </div>
 
-    <div>
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("SelectionByTeacher",
-       new { page = x, sortingParam = Model.CurrentParameter }))
-    </div>
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("SelectionByTeacher",
+   new { page = x, sortingParam = Model.CurrentParameter }))
+</div>

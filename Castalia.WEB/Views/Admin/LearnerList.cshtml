@@ -21,11 +21,13 @@
                 {<p>Student is blocked</p>}
                 else
                 { <p>Student isn`t blocked</p>}
-                <p class="card-text">@Html.ActionLink(item.IsBlocked ? "Unblock him" : "Block him", "ManagingStudents",
-                                    new { Id = item.Id ,page=Model.PagingInfo.CurrentPage})</p>
-            </div>
+                <p class="card-text">
+                    @Html.ActionLink(item.IsBlocked ? "Unblock him" : "Block him", "ManagingStudents",
+               new { Id = item.Id ,page=Model.PagingInfo.CurrentPage})
+            </p>
         </div>
-    }
+    </div>
+}
 </div>
 <div>
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("LearnerList",

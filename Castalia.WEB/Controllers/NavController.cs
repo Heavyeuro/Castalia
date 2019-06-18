@@ -27,7 +27,7 @@ namespace Castalia.WEB.Controllers
             ViewBag.SelectedTopic = sortingParam;
 
             IEnumerable<string> topics = repository.Courses.GetAll()
-                .Select(p=>p.Topic.TopicName)
+                .Select(p => p.Topic.TopicName)
                 .Distinct()
                 .OrderBy(x => x);
             return PartialView(topics);
@@ -42,7 +42,7 @@ namespace Castalia.WEB.Controllers
         {
             ViewBag.SelectedTeacher = sortingParam;
 
-            IEnumerable<string> topics = repository.Teachers.GetAll().Select(p=>p.TeacherName).Distinct();
+            IEnumerable<string> topics = repository.Teachers.GetAll().Select(p => p.TeacherName).Distinct();
             return PartialView(topics);
         }
     }

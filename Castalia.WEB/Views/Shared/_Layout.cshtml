@@ -23,9 +23,9 @@
                 <li class="nav-item active">
                     @Html.ActionLink("Courses", "SelectionByTopic", "Home", null, new { @class = "btn btn-block btn-info btn-lg custom" })
                 </li>
-              
+
             </ul>
-                @Html.Partial("_LoginPartial")
+            @Html.Partial("_LoginPartial")
         </div>
     </nav>
     <div id="mainContainer" class="container container-fluid jumbotron">
@@ -43,7 +43,7 @@
                     <h2>Course selection</h2>
                     @Html.Partial("AdminNav")
                     @Html.Partial("StudentNav")
-                    @Html.ActionLink("View courses","Index","Teacher", null,new { @class = "btn btn-block btn-primary btn-lg custom" })
+                    @Html.ActionLink("View courses", "Index", "Teacher", null, new { @class = "btn btn-block btn-primary btn-lg custom" })
                     @Html.ActionLink("To all courses", "SelectionByTeacher", "Home", null,
                  new { @class = "btn btn-block btn-primary btn-lg custom" })
                     <h2>By Topic</h2>
