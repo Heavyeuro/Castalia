@@ -39,7 +39,8 @@ namespace Castalia.WEB.Controllers
                    , sortOrder).Skip((page - 1) * PageSize)
                    .Take(PageSize).ToList();
 
-            if (User.IsInRole("student")) model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
+           // if (User.IsInRole("student"))
+                model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
 
             return View("TopicView", model);
         }
@@ -140,7 +141,7 @@ namespace Castalia.WEB.Controllers
             return courses;
         }
 
-        //implement it in view (if null dont display) 1- "can registre", 0- "already registred"
+      
         public Dictionary<int, bool> StudentRefisterPosibility(List<Course> courses)
         {
             string currentStudent = HttpContext.User.Identity.Name;

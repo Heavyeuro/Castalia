@@ -36,13 +36,12 @@
                     if (Model.StudentRefisterPosibility.Where(x => x.Key == p.Id).First().Value)
                     {
 
-                        @Html.ActionLink("Register", "Register", "Student", new { Id = p.Id }, new { @class = "btn btn-block btn-primary btn-lg custom" })
+                        @Html.ActionLink("Register", "Register", "Student", new { Id = p.Id }, new { @class = "btn btn-block btn-info custom" })
                     }
                     else
                     {
                         @Html.Raw("<p>You  are already registred on this course</p>")
                     }
-
                 }
             </div>
         </div>
