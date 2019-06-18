@@ -31,7 +31,6 @@ namespace Castalia.WEB.Controllers
             CourseViewModel courseVM = new CourseViewModel { Id=Id,AmountOfStudents=course.AmountOfStudents,CourseName=course.CourseName,
                 DurationDays =course.DurationDays,StartDate=course.StartDate,Topic=course.Topic.TopicName};
             //creating course model for view
-
             return View(courseVM);
         }
 

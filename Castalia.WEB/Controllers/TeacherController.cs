@@ -9,20 +9,20 @@ using System.Web.Mvc;
 
 namespace Castalia.WEB.Controllers
 {
-    public class LearnerController : Controller
+    public class TeacherController : Controller
     {
         IUnitOfWork UO;
         public int PageSize =2;
 
-        public LearnerController (IUnitOfWork repo)
+        public TeacherController (IUnitOfWork repo)
         {
             UO = repo;
         }
 
         public ViewResult Index(string currCourse,int page=1)
         {
-            //static name 
-            string teacherName = HttpContext.User.Identity.Name; 
+            string teacherName = HttpContext.User.Identity.Name;
+            teacherName = "Nikolev Oleksei";
 
             LearnerViewModel learnerView = new LearnerViewModel()
             {

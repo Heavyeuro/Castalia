@@ -215,7 +215,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LearnerController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -225,11 +225,10 @@
     <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CourseListViewModel.cs" />
     <Compile Include="Models\CourseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\LearnerListViewModel.cs" />
     <Compile Include="Models\LearnerViewModel.cs" />
+    <Compile Include="Models\LogViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\TeacherViewModel.cs" />
@@ -290,7 +289,9 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -340,12 +341,12 @@
     <Content Include="Views\Home\TopicView.cshtml" />
     <Content Include="Views\Admin\TeacherView.cshtml" />
     <Content Include="Views\Shared\AdminNav.cshtml" />
-    <Content Include="Views\Admin\_TeacherList.cshtml" />
-    <Content Include="Views\Learner\Index.cshtml" />
+    <Content Include="Views\Teacher\Index.cshtml" />
+    <Content Include="Views\Student\StudentsCourses.cshtml" />
+    <Content Include="Views\Shared\StudentNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Student\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

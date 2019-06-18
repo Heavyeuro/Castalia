@@ -37,19 +37,21 @@
             <main class="col-sm-9">
                 @RenderBody()
             </main>
-                <div class="col-sm-3 " style="background-color:aquamarine">
-            @if (ViewBag.Title == "Courses")
-            {
+            <div class="col-sm-3 " style="background-color:aquamarine">
+                @if (ViewBag.Title == "Courses")
+                {
                     <h2>Course selection</h2>
-                @Html.Partial("AdminNav")
+                    @Html.Partial("AdminNav")
+                    @Html.Partial("StudentNav")
+                    @Html.ActionLink("View courses","Index","Teacher", null,new { @class = "btn btn-block btn-primary btn-lg custom" })
                     @Html.ActionLink("To all courses", "SelectionByTeacher", "Home", null,
                  new { @class = "btn btn-block btn-primary btn-lg custom" })
                     <h2>By Topic</h2>
                     @Html.Action("MenuTopic", "Nav")
                     <h2>By Teacher</h2>
                     @Html.Action("MenuTeacher", "Nav")
-            }
-                </div>
+                }
+            </div>
         </div>
 
     </div>

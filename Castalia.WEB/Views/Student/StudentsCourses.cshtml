@@ -1,0 +1,39 @@
+﻿@model Castalia.WEB.Models.LogViewModel
+
+@{
+    ViewBag.Title = "FinishedCourses";
+}
+
+<h2>FinishedCourses</h2>
+@foreach (var log in Model.Logs)
+{
+<div class="card border-primary mb-3" style="max-width: 20rem;">
+    <div class="card-header">@log.Course.CourseName</div>
+    <div class="card-body">
+        Amount of students in course: @log.Course.AmountOfStudents
+        <p class="card-text">You registred @log.RegisterDate.ToShortDateString()</p>
+        Duration of the course @log.Course.DurationDays days
+        @switch (Model.CourseStatus)
+        {
+            case "notStarted":
+                <p class="card-text">Days to start:  @(DateTime.Now - log.Course.StartDate).TotalDays</p>
+                break;
+            case "finished":
+                <p class="card-text">
+                    Your mark:  @log.Mark
+                </p>
+                break;
+            case "inProgress":
+                
+                <div class="progress">
+
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))" aria-valuemin="0" aria-valuemax="100" style="width:@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))%"></div>
+                </div>
+
+                break;
+
+        }
+    </div>
+</div>
+}
+

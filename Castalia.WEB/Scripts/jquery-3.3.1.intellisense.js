@@ -606,20 +606,20 @@ intellisense.annotate(_object, {
   },
   'then': function() {
     /// <signature>
-    ///   <summary>Add handlers to be called when the Deferred object is resolved, rejected, or still in progress.</summary>
+    ///   <summary>Add handlers to be called when the Deferred object is resolved, rejected, or still inProgress.</summary>
     ///   <param name="doneFilter" type="Function">A function that is called when the Deferred is resolved.</param>
     ///   <param name="failFilter" type="Function">An optional function that is called when the Deferred is rejected.</param>
     ///   <param name="progressFilter" type="Function">An optional function that is called when progress notifications are sent to the Deferred.</param>
     ///   <returns type="Promise" />
     /// </signature>
     /// <signature>
-    ///   <summary>Add handlers to be called when the Deferred object is resolved, rejected, or still in progress.</summary>
+    ///   <summary>Add handlers to be called when the Deferred object is resolved, rejected, or still inProgress.</summary>
     ///   <param name="doneCallbacks" type="Function">A function, or array of functions, called when the Deferred is resolved.</param>
     ///   <param name="failCallbacks" type="Function">A function, or array of functions, called when the Deferred is rejected.</param>
     ///   <returns type="Promise" />
     /// </signature>
     /// <signature>
-    ///   <summary>Add handlers to be called when the Deferred object is resolved, rejected, or still in progress.</summary>
+    ///   <summary>Add handlers to be called when the Deferred object is resolved, rejected, or still inProgress.</summary>
     ///   <param name="doneCallbacks" type="Function">A function, or array of functions, called when the Deferred is resolved.</param>
     ///   <param name="failCallbacks" type="Function">A function, or array of functions, called when the Deferred is rejected.</param>
     ///   <param name="progressCallbacks" type="Function">A function, or array of functions, called when the Deferred notifies progress.</param>

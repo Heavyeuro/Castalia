@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Castalia.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,5 +32,38 @@ namespace Castalia.WEB.Models
         [Required]
         [Display(Name = "Amount of student that registred")]
         public int AmountOfStudents { get; set; }
+
+
     }
+
+    public class CourseListViewModel
+    {
+
+        public List<Course> Courses { get; set; }
+        public List<Teacher> Teachers { get; set; }
+
+        /// <summary>
+        /// All info about pagination
+        /// </summary>
+        public PagingInfo PagingInfo { get; set; }
+
+        /// <summary>
+        /// Current parameter that we are geting sample
+        /// by
+        /// </summary>
+        public string CurrentParameter { get; set; }
+
+        /// <summary>
+        /// accordance courseId to posibility of student to register on course
+        /// </summary>
+        public Dictionary<int, bool> StudentRefisterPosibility { get; set; }
+
+
+        /// <summary>
+        /// accordance display name of the sorted parameter to its sorted id
+        /// </summary>
+        public Dictionary<string, string> SortedParam { get; set; }
+    }
+
+
 }

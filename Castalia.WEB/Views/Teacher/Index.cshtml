@@ -13,14 +13,14 @@
             <div class="card border-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">@log.Lerner.LearnerName</div>
                 <div class="card-body">
-                    <p class="card-text">Register date: @log.RegisterDate</p>
-                    <p class="card-text">Date of finishing: @log.RegisterDate.AddDays(log.Course.DurationDays)</p>
-                    <h5>
-                        Mark:
-
+                    <p class="card-text">Register date:  @log.RegisterDate.ToShortDateString()</p>
+                    <p class="card-text">Date of finishing: @log.RegisterDate.AddDays(log.Course.DurationDays).ToShortDateString()</p>
+                    @if (((log.RegisterDate.AddDays(log.Course.DurationDays) - DateTime.Now).TotalDays) > 0)
+                    {<p class="text-danger">Course is allready finished, please reate exact learner </p>}
+  
                         @if (log.Mark == null)
-                        {<h5>no mark</h5>
-                            using (Html.BeginForm("AddRate", "Learner", FormMethod.Post))
+                        {
+                            using (Html.BeginForm("AddRate", "Teacher", FormMethod.Post))
                             {
 
                                 @Html.AntiForgeryToken()
@@ -40,9 +40,9 @@
                         }
                         else
                         {
+                        @Html.Raw("Mark:")
                             @log.Mark
                         }
-                    </h5>
 
                 </div>
             </div>

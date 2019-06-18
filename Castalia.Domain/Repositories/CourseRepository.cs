@@ -21,6 +21,7 @@ namespace Castalia.Domain.Repositories
         {
             this.db = context;
         }
+
         /// <summary>
         /// Returns list of courses with joined topic and teacher tables
         /// </summary>
@@ -34,6 +35,7 @@ namespace Castalia.Domain.Repositories
         {
             return db.Courses.Find(id);
         }
+
         /// <summary>
         /// Creating new record
         /// </summary>
@@ -43,6 +45,7 @@ namespace Castalia.Domain.Repositories
             db.Courses.Add(course);
             db.SaveChanges();
         }
+
         /// <summary>
         /// Creates new record if course don`t exist and updates data in table otherwise.
         /// </summary>

@@ -17,19 +17,31 @@
 
 <div class="row">
     @foreach (var p in @Model.Courses)
+
     {
         <div class="card text-white col-5 bg-primary m-3" style="max-width: 20rem;">
             <div class="card-header">@p.CourseName  <div class="text-lg-right">Topic name: @p.Topic.TopicName</div></div>
             <div class="card-body">
                 <h6 class="card-title">
                     Teacher:  @if (p.Teacher == null)
-                    {<h6>The teacher has not been appointed</h6>}
+                    {@Html.Raw("The teacher has not been appointed</>")}
                     else
                     { @p.Teacher.TeacherName}
                 </h6>
                 <p>Amount of the students: @p.AmountOfStudents</p>
                 <p class="card-text">Duration (days): @p.DurationDays</p>
-                Start date: @p.StartDate
+                Start date: @p.StartDate.ToShortDateString()
+                @if (Model.StudentRefisterPosibility != null) {
+                if(Model.StudentRefisterPosibility.Where(x => x.Key == p.Id).First().Value) {
+                      
+                    @Html.ActionLink("Register", "Register", "Student", new { Id=p.Id},new { @class = "btn btn-block btn-primary btn-lg custom" })
+                }
+                else
+                {
+                    @Html.Raw("<p>You  are already registred on this course</p>")
+                }
+
+                }
             </div>
         </div>
     }

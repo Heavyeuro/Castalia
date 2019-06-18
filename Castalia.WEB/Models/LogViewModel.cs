@@ -6,14 +6,15 @@ using System.Web;
 
 namespace Castalia.WEB.Models
 {
-    public class LearnerListViewModel
+    public class LogViewModel
     {
-        public IEnumerable<Learner> Learners { get; set; }
+        public List<Log> Logs { get; set; }
 
         /// <summary>
         /// All info about pagination
         /// </summary>
         public PagingInfo PagingInfo { get; set; }
 
+        public string CourseStatus { get; set; }
     }
 }

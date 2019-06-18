@@ -1,0 +1,4 @@
+﻿
+@Html.ActionLink("Finished courses", "StudentsCourses", "Student", new { courseStatus = "finished" }, new { @class = "btn btn-block btn-primary btn-lg custom" })
+@Html.ActionLink("Feature courses", "StudentsCourses", "Student", new { courseStatus = "notStarted" }, new { @class = "btn btn-block btn-primary btn-lg custom" })
+@Html.ActionLink("Courses in progress", "StudentsCourses", "Student", new { courseStatus = "inProgress" }, new { @class = "btn btn-block btn-primary btn-lg custom" })

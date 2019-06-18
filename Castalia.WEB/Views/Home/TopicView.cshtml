@@ -23,13 +23,13 @@
     <div class="card-body">
         <h6 class="card-title">
             Teacher:@if (p.Teacher == null)
-            {<div>The teacher has not been appointed</div>}
+            {@Html.Raw("The teacher has not been appointed")}
             else
             { @p.Teacher.TeacherName }
         </h6>
         <p>Amount of the students: @p.AmountOfStudents</p>
         <p class="card-text">Duration (days): @p.DurationDays</p>
-        Start date: @p.StartDate
+        Start date: @p.StartDate.ToShortDateString()
     </div>
 </div>     
 }
