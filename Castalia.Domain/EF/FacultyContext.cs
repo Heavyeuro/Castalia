@@ -13,6 +13,7 @@ namespace Castalia.Domain.EF
         public DbSet<Log> Log { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Topic> Topics { get; set; }
+        public DbSet<NicknameName> Nicknames { get; set; }
 
         static FacultyContext()
         {
@@ -41,10 +42,10 @@ namespace Castalia.Domain.EF
             Teacher teacher3 = new Teacher { TeacherName = "Kartashov Oleksei" };
 
             List<Learner> learners = new List<Learner>();
-               learners.Add(new Learner { LearnerName = "Ivanov Ivan", IsBlocked = false });
-            learners.Add(new Learner { LearnerName = "Serheiev Serhei", IsBlocked = false });
-            learners.Add(new Learner { LearnerName = "Nikolaiev Nikolay", IsBlocked = false });
-            learners.Add(new Learner { LearnerName = "Antonov Anton", IsBlocked = false });
+                learners.Add(new Learner { LearnerName = "Ivanov Ivan", IsBlocked = false });
+                learners.Add(new Learner { LearnerName = "Serheiev Serhei", IsBlocked = false });
+                learners.Add(new Learner { LearnerName = "Nikolaiev Nikolay", IsBlocked = false });
+                learners.Add(new Learner { LearnerName = "Antonov Anton", IsBlocked = false });
 
 
             List<Course> courses = new List<Course>();
@@ -61,6 +62,10 @@ namespace Castalia.Domain.EF
             logs.Add(new Log { Course = courses[1], Lerner = learners[0], Mark = 100, RegisterDate = new DateTime(2019, 7, 20) });
             logs.Add(new Log { Course = courses[1], Lerner = learners[1], Mark = 50, RegisterDate = new DateTime(2019, 7, 20) });
             logs.Add(new Log { Course = courses[1], Lerner = learners[2], Mark = 80, RegisterDate = new DateTime(2019, 7, 20) });
+
+
+            db.Nicknames.Add(new NicknameName() { Learner=learners[0],UserName= "user@mail.ru" });
+            db.Nicknames.Add(new NicknameName() { Teacher=teacher1, UserName = "teacher@mail.ru" });
 
             db.Topics.Add(topic1);
             db.Topics.Add(topic2);

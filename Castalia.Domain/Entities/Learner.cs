@@ -9,8 +9,8 @@ namespace Castalia.Domain.Entities
 {
     public class Learner : BaseEntity
     {
-        [Required(ErrorMessage = "Please, enter name of the learner")]
         [MaxLength(30)]
+        [Required(ErrorMessage = "Please, enter name of the learner")]
         [Display(Name = "Student Name")]
         public string LearnerName { get; set; }
 

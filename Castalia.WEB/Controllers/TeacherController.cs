@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Castalia.WEB.Controllers
 {
+    [Authorize(Roles = "teacher")]
     public class TeacherController : Controller
     {
         IUnitOfWork UO;
@@ -21,8 +22,14 @@ namespace Castalia.WEB.Controllers
 
         public ViewResult Index(string currCourse, int page = 1)
         {
-            string teacherName = HttpContext.User.Identity.Name;
-            teacherName = "Nikolev Oleksei";
+           
+            string teacherName = UO.NickName.GetAll()
+                .Where(m=>m.UserName==HttpContext.User.Identity.Name)
+                .First().Teacher.TeacherName;
+            if (TempData["CustomError"] != null)
+            {
+                ModelState.AddModelError("Mark", TempData["CustomError"].ToString());
+            }
 
             LearnerViewModel learnerView = new LearnerViewModel()
             {
@@ -60,7 +67,10 @@ namespace Castalia.WEB.Controllers
         {
 
             if (Mark > 100 || Mark < 0)
-                ModelState.AddModelError("Mark", "Mark shoyld be in range from 0 to 100");
+            {
+                TempData["CustomError"] = "Mark shoyld be in range from 0 to 100";
+                ModelState.AddModelError("","");
+            }
             //Checkig for validation errors
             if (ModelState.IsValid)
             {

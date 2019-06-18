@@ -3,8 +3,23 @@
 @{
     ViewBag.Title = "FinishedCourses";
 }
+@switch (Model.CourseStatus)
+{
+    case "notStarted":
+        ViewBag.Title = "Not started Courses";
+        <h2>Future courses</h2>
+        break;
+    case "finished":
+        ViewBag.Title = "Finished Courses";
+        <h2>Courses that you finished</h2>
 
-<h2>FinishedCourses</h2>
+        break;
+    case "inProgress":
+        ViewBag.Title = "Courses in progress";
+        <h2>Courses that you finished</h2>
+        break;
+}
+
 @foreach (var log in Model.Logs)
 {
     <div class="card border-primary mb-3" style="max-width: 20rem;">
@@ -20,19 +35,22 @@
                     break;
                 case "finished":
                     <p class="card-text">
-                        Your mark:  @log.Mark
-                    </p>
-                    break;
-                case "inProgress":
+                        Your mark:  @if (log.Mark == null)
+                        {
+                        <p class="text-danger"> Inform your teacher about need for mark</p>}
+                    else
+                    {@log.Mark}
+                        </p>
+                        break;
+                    case "inProgress":
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                 aria-valuenow=@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))
+                                 aria-valuemin="0" aria-valuemax="100" style="width:@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))%"></div>
+                        </div>
 
-                    <div class="progress">
-
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))" aria-valuemin="0" aria-valuemax="100" style="width:@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))%"></div>
-                    </div>
-
-                    break;
-
-            }
+                        break;
+                }
         </div>
     </div>
 }

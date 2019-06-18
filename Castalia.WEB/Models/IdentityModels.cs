@@ -42,13 +42,13 @@ namespace Castalia.WEB.Models
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-            // создаем две роли
+            // Creating roles
             var role1 = new IdentityRole { Name = "admin" };
             var role2 = new IdentityRole { Name = "user" };
             var role3 = new IdentityRole { Name = "teacher" };
 
 
-            // добавляем роли в бд
+            // adding them to database
             roleManager.Create(role1);
             roleManager.Create(role2);
             roleManager.Create(role3);
@@ -60,19 +60,16 @@ namespace Castalia.WEB.Models
             var result = userManager.Create(admin, password);
 
             var teacher = new ApplicationUser { Email = "teacher@mail.ru", UserName = "teacher@mail.ru" };
-            password = "123Bmv=";
             var result1 = userManager.Create(teacher, password);
 
+
             var user = new ApplicationUser { Email = "user@mail.ru", UserName = "user@mail.ru" };
-            password = "123Bmv=";
             var result2 = userManager.Create(user, password);
 
-            // если создание пользователя прошло успешно
+            // if all aperation is successful
             if (result.Succeeded && result1.Succeeded && result2.Succeeded)
             {
                 userManager.AddToRole(admin.Id, role1.Name);
-                userManager.AddToRole(admin.Id, role2.Name);
-                userManager.AddToRole(admin.Id, role3.Name);
 
                 userManager.AddToRole(teacher.Id, role3.Name);
 

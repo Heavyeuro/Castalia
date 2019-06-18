@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Castalia.WEB.Controllers
 {
+
     public class NavController : Controller
     {
 

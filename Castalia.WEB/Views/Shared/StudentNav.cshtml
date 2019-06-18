@@ -1,4 +1,20 @@
 ﻿
-@Html.ActionLink("Finished courses", "StudentsCourses", "Student", new { courseStatus = "finished" }, new { @class = "btn btn-block btn-primary btn-lg custom" })
-@Html.ActionLink("Feature courses", "StudentsCourses", "Student", new { courseStatus = "notStarted" }, new { @class = "btn btn-block btn-primary btn-lg custom" })
-@Html.ActionLink("Courses in progress", "StudentsCourses", "Student", new { courseStatus = "inProgress" }, new { @class = "btn btn-block btn-primary btn-lg custom" })
+@if (User.IsInRole("admin")){
+    @Html.Raw("<h3>Admin`s panel</h3>");
+    @Html.Partial("AdminNav")
+}
+@if (User.IsInRole("user")){
+    @Html.Raw("<h3>Learner`s panel</h3>");
+    @Html.ActionLink("Finished courses", "StudentsCourses", "Student", new { courseStatus = "finished" },
+    new { @class = "btn btn-block btn-primary btn-lg custom" })
+    @Html.ActionLink("Feature courses", "StudentsCourses", "Student", new { courseStatus = "notStarted" },
+    new { @class = "btn btn-block btn-primary btn-lg custom" })
+    @Html.ActionLink("Courses in progress", "StudentsCourses", "Student", new { courseStatus = "inProgress" },
+    new { @class = "btn btn-block btn-primary btn-lg custom" })
+}
+@if (User.IsInRole("teacher")){
+    @Html.Raw("<h3>Teacher`s panel</h3>");
+    @Html.ActionLink("View courses", "Index", "Teacher", null, new { @class = "btn btn-block btn-primary btn-lg custom" })
+}
+@Html.ActionLink("To all courses", "SelectionByTeacher", "Home", null,
+new { @class = "btn btn-block btn-primary btn-lg custom" })

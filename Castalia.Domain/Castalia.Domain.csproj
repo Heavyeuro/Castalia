@@ -53,6 +53,7 @@
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\Learner.cs" />
     <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\NicknameName.cs" />
     <Compile Include="Entities\Teacher.cs" />
     <Compile Include="Entities\Topic.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Repositories\EFUnitOfWork.cs" />
     <Compile Include="Repositories\LearnerRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />
+    <Compile Include="Repositories\NicknameNameRepository.cs" />
     <Compile Include="Repositories\TeacherRepository.cs" />
     <Compile Include="Repositories\TopicRepository.cs" />
   </ItemGroup>

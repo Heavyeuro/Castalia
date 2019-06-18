@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Castalia.WEB.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         IUnitOfWork UO;

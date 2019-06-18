@@ -17,6 +17,7 @@ namespace Castalia.Domain.Interfaces
         IRepository<Log> Logs { get; }
         IRepository<Learner> Learners { get; }
         IRepository<Course> Courses { get; }
+        IRepository<NicknameName> NickName { get; }
 
         void Save();
     }

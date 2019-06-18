@@ -20,11 +20,22 @@ namespace Castalia.Domain.Repositories
         private LogRepository logRepository;
         private LearnerRepository learnerRepository;
         private CourseRepository courseRepository;
+        private NicknameNameRepository nicknameNameRepository;
 
         public EFUnitOfWork(string connectionString)
         {
             db = new FacultyContext(connectionString);
 
+        }
+
+        public IRepository<NicknameName> NickName
+        {
+            get
+            {
+                if (nicknameNameRepository == null)
+                    nicknameNameRepository = new NicknameNameRepository(db);
+                return nicknameNameRepository;
+            }
         }
 
         public IRepository<Topic> Topics

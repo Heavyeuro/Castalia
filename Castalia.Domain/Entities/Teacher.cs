@@ -9,10 +9,12 @@ namespace Castalia.Domain.Entities
 {
     public class Teacher:BaseEntity
     {
-      
         [MaxLength(30)]
+        [Required(ErrorMessage = "Please, enter name of the teacher")]
         [Display(Name = "Teacher Of the course")]
         public string TeacherName { get; set; }
+
+
 
     }
 }

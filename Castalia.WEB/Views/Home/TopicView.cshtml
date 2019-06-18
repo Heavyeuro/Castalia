@@ -30,7 +30,7 @@
         <p>Amount of the students: @p.AmountOfStudents</p>
         <p class="card-text">Duration (days): @p.DurationDays</p>
         Start date: @p.StartDate.ToShortDateString()
-        @if (Model.StudentRefisterPosibility != null)
+        @if (Model.StudentRefisterPosibility != null&& User.IsInRole("user"))
         {
             if (Model.StudentRefisterPosibility.Where(x => x.Key == p.Id).First().Value)
             {

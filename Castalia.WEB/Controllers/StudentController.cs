@@ -10,6 +10,7 @@ using Castalia.Domain.Entities;
 
 namespace Castalia.WEB.Controllers
 {
+    [Authorize(Roles = "user")]
     public class StudentController : Controller
     {
         IUnitOfWork UO;
@@ -24,8 +25,9 @@ namespace Castalia.WEB.Controllers
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
 
-            string learnerName = HttpContext.User.Identity.Name;
-            //learnerName = "Ivanov Ivan";
+            string learnerName = UO.NickName.GetAll()
+                .Where(m => m.UserName == HttpContext.User.Identity.Name)
+                .First().Learner.LearnerName;
             LogViewModel logModel = new LogViewModel()
             {
                 CourseStatus = courseStatus,
@@ -39,15 +41,15 @@ namespace Castalia.WEB.Controllers
             switch (logModel.CourseStatus)
             {
                 case "notStarted":
-                    logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
+                    logModel.Logs = UO.Logs.GetAll().Where(x =>  x.Lerner.LearnerName == learnerName
                     && x.Course.StartDate > DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
                     break;
                 case "finished":
-                    logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
+                    logModel.Logs = UO.Logs.GetAll().Where(x =>  x.Lerner.LearnerName == learnerName
                     && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
                     break;
                 case "inProgress":
-                    logModel.Logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
+                    logModel.Logs = UO.Logs.GetAll().Where(x=> x.Lerner.LearnerName == learnerName
                     && x.Course.StartDate < DateTime.Now && x.Course.StartDate.AddDays(x.Course.DurationDays) > DateTime.Now)
                     .Skip((page - 1) * PageSize).Take(PageSize).ToList();
                     break;
@@ -67,9 +69,9 @@ namespace Castalia.WEB.Controllers
 
         public ActionResult Register(int Id)
         {
-            string currentStudent = HttpContext.User.Identity.Name;
-            //temp
-            currentStudent = "Ivanov Ivan";
+            string currentStudent = UO.NickName.GetAll()
+                .Where(m => m.UserName == HttpContext.User.Identity.Name)
+                .First().Learner.LearnerName;
             Course course = UO.Courses.Get(Id);
             if (course.StartDate > DateTime.Now)
             {

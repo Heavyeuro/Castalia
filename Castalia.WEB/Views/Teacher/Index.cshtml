@@ -9,14 +9,16 @@
     <div class="col-md-8">
         @if (Model.logs.Count == 0)
         {<h3>There are no one student on chosen course</h3>}
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         @foreach (var log in Model.logs)
         {
+
             <div class="card border-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">@log.Lerner.LearnerName</div>
                 <div class="card-body">
                     <p class="card-text">Register date:  @log.RegisterDate.ToShortDateString()</p>
                     <p class="card-text">Date of finishing: @log.RegisterDate.AddDays(log.Course.DurationDays).ToShortDateString()</p>
-                    @if (((log.RegisterDate.AddDays(log.Course.DurationDays) - DateTime.Now).TotalDays) > 0)
+                    @if (((log.RegisterDate.AddDays(log.Course.DurationDays) - DateTime.Now).TotalDays) > 0 && log.Mark==null)
                     {<p class="text-danger">Course is allready finished, please reate exact learner </p>}
 
                     @if (log.Mark == null)
@@ -29,7 +31,7 @@
                             <div class="form-group row">
                                 <label class="col-form-label col-7" for="inputDefault">Place for mark(1-100)</label>
                                 <input type="text" class="form-control col-3" name="Mark" id="Mark">
-                                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
                             </div>
                             <br />
                             <div class="form-group">

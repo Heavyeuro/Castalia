@@ -83,3 +83,7 @@ input[type="checkbox"].input-validation-error {
     margin: auto;
     background-color: aqua;
 }
+
+#mainContainer {
+ min-height: 7.5in;
+}
