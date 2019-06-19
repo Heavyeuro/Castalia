@@ -5,29 +5,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>LearnerList</h2>
+<div class="secondaryContainer">
+    <h2>LearnerList</h2>
 
 
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-<div class="row">
-    @foreach (var item in Model.Learners)
-    {
-        <div class="card border-primary m-3 col-5" style="max-width: 20rem;">
-            <div class="card-header"><h4>@item.LearnerName</h4></div>
-            <div class="card-body">
-                Status:
-                @if (item.IsBlocked)
-                {<p>Student is blocked</p>}
-                else
-                { <p>Student isn`t blocked</p>}
-                <p class="card-text">
-                    @Html.ActionLink(item.IsBlocked ? "Unblock him" : "Block him", "ManagingStudents",
-               new { Id = item.Id ,page=Model.PagingInfo.CurrentPage})
-            </p>
-        </div>
+    <div class="row">
+        @foreach (var item in Model.Learners)
+        {
+            <div class="card border-primary m-3 col-5" style="max-width: 20rem;">
+                <div class="card-header"><h4>@item.LearnerName</h4></div>
+                <div class="card-body">
+                    Status:
+                    @if (item.IsBlocked)
+                    {<p>Student is blocked</p>}
+                    else
+                    { <p>Student isn`t blocked</p>}
+                    <p class="card-text">
+                        @Html.ActionLink(item.IsBlocked ? "Unblock him" : "Block him", "ManagingStudents",
+                   new { Id = item.Id ,page=Model.PagingInfo.CurrentPage})
+                    </p>
+                </div>
+            </div>
+        }
     </div>
-}
 </div>
 <div>
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("LearnerList",

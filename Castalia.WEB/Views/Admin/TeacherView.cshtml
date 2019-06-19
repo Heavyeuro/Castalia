@@ -1,52 +1,57 @@
-﻿@model Castalia.WEB.Models.CourseListViewModel
+﻿@using Castalia.WEB.Heplers
+@model Castalia.WEB.Models.CourseListViewModel
 
 @{
     ViewBag.Title = "TeacherView";
 }
 
-<h2>Register new teacher</h2>
-
-@using (Html.BeginForm("AddTeacher", "Admin", FormMethod.Post))
-{
-
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <label class="col-form-label" for="inputDefault">Enter name of the new teacher</label>
-        <input type="text" class="form-control" name="teacherName" id="inputDefault">
-    </div>
-
-    <br />
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-primary">Add teacher </button>
-        </div>
-    </div>
+@{
+    ViewBag.Title = "Courses";
 }
+<div class="secondaryContainer">
 
-<div>
-    <h4>Courses without teacher</h4>
-    <hr />
-    @foreach (var course in Model.Courses)
+
+    <h2>Register new teacher</h2>
+
+    @using (Html.BeginForm("AddTeacher", "Admin", FormMethod.Post))
     {
-        <div class="card border-primary mb-3" style="max-width: 20rem;">
-            <div class="card-header">Topic:  @course.Topic.TopicName</div>
-            <div class="card-body">
-                <h4 class="card-title"> @course.CourseName</h4>
-                Appoint teacher:
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label class="col-form-label" for="inputDefault">Enter name of the new teacher</label>
+            <input type="text" class="form-control" name="teacherName" id="inputDefault">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
 
-                @foreach (var teacher in Model.Teachers)
-                {
-                    <p class="card-text">@Html.ActionLink(teacher.TeacherName, "AppointTeacher", new { id = course.Id, teacherId = teacher.Id }) </p>
-                }
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary">Add teacher </button>
             </div>
         </div>
     }
-</div>
-<p>
 
-    @Html.ActionLink("Back to all courses", "Index")
-</p>
-<div>
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("TeacherView",
-   new { page = x }))
-</div>
+    <div>
+        <hr />
+        <h4>Courses without teacher</h4>
+        @foreach (var course in Model.Courses)
+        {
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Topic:  @course.Topic.TopicName</div>
+                <div class="card-body">
+                    <h4 class="card-title"> @course.CourseName</h4>
+
+                    <div id="TeacherContainer">
+                        @Ajax.ActionLink("Appoint teacher", "TeacherListPartial", "Teacher", new { Id= course.Id },
+                 new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "TeacherContainer", InsertionMode = InsertionMode.Replace }
+                 , new { @class = "btn btn-block btn-info btn-lg custom" })
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("TeacherView",
+       new { page = x }))
+    </div>

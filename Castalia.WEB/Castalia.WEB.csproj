@@ -352,6 +352,7 @@
     <Content Include="Views\Student\StudentsCourses.cshtml" />
     <Content Include="Views\Shared\Navigation.cshtml" />
     <Content Include="Views\SelfCabinet\Index.cshtml" />
+    <Content Include="Views\Teacher\TeacherListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

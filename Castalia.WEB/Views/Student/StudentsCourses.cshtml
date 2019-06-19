@@ -31,7 +31,7 @@
             @switch (Model.CourseStatus)
             {
                 case "notStarted":
-                    <p class="card-text">Days to start:  @(DateTime.Now - log.Course.StartDate).TotalDays</p>
+                    <p class="card-text">Days to start:  @((log.Course.StartDate-DateTime.Now ).Days)</p>
                     break;
                 case "finished":
                     <p class="card-text">

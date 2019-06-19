@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-
+<div class="secondaryContainer">
 <div class="row">
     <div class="col-md-8">
         @if (Model.logs.Count == 0)
@@ -60,6 +60,7 @@
         }
     </div>
 
+</div>
 </div>
 <div>
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index",

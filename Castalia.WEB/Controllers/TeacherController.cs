@@ -31,6 +31,7 @@ namespace Castalia.WEB.Controllers
                 ModelState.AddModelError("Mark", TempData["CustomError"].ToString());
             }
 
+
             LearnerViewModel learnerView = new LearnerViewModel()
             {
                 CoursesList = new List<string>(),
@@ -78,6 +79,17 @@ namespace Castalia.WEB.Controllers
                 UO.Save();
             }
             return RedirectToAction("Index");
+        }
+
+        //[Authorize(Roles = "admin")]
+        [HttpGet]
+        [AllowAnonymous]
+        public PartialViewResult TeacherListPartial (int Id)
+        {
+            ViewBag.Id = Id;
+            List<Teacher> teachers = new List<Teacher>();
+            teachers = UO.Teachers.GetAll().ToList();
+            return PartialView(teachers);
         }
     }
 }

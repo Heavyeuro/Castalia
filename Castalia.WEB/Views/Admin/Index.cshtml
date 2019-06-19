@@ -58,8 +58,8 @@
                         @Html.DisplayFor(modelItem => item.AmountOfStudents)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Edit", "Edit","Admin", new { id = item.Id },null) |
+                        @Html.ActionLink("Delete", "Delete","Admin", new { id = item.Id },null)
                     </td>
                 </tr>
             }

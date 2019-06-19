@@ -81,9 +81,15 @@ input[type="checkbox"].input-validation-error {
 #mainContainer {
     width: 80%;
     margin: auto;
-    background-color: aqua;
+    background-color: #40BCEF;
+    min-height: 7.5in;
 }
 
-#mainContainer {
- min-height: 7.5in;
+.secondaryContainer {
+    
+    min-height: 7.5in;
+}
+
+#navbar-dark, #btn-primary {
+    background-color: #FF680A;
 }

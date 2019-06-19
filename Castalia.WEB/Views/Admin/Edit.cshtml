@@ -1,19 +1,18 @@
 ﻿@model Castalia.WEB.Models.CourseViewModel
 
 @{
-    ViewBag.Title = "Edit";
+
+    ViewBag.Title = Model.CourseName!=null?"Editing":"Adding";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+
 
 @using (Html.BeginForm("Edit", "Admin"))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>CourseViewModel</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 

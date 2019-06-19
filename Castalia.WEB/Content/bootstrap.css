@@ -84,6 +84,7 @@ hr {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
@@ -2604,9 +2605,9 @@ fieldset:disabled a.btn {
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #E95420;
-  border-color: #E95420;
+    color: #fff;
+    background-color: #FF680A;
+    border-color: #E95420;
 }
 
 .btn-primary:hover {
@@ -6904,7 +6905,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-color: #E95420 !important;
+    background-color: #FF680A !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,

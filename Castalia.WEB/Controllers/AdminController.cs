@@ -50,14 +50,20 @@ namespace Castalia.WEB.Controllers
             //Checkig for validation errors
             if (ModelState.IsValid)
             {
-                Course courses = UO.Courses.Get(course.Id);
+                Course courses;
+                if (Id != 0)
+                   courses = UO.Courses.Get(course.Id);
+                else  courses = new Course();
+
                 courses.DurationDays = course.DurationDays;
                 courses.CourseName = course.CourseName;
                 courses.StartDate = course.StartDate;
+                
 
                 int i = UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).Count();
                 if (i > 0) courses.Topic = UO.Topics.Get(UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).First().Id);
                 else courses.Topic = new Topic { TopicName = course.Topic };
+                UO.Courses.Update(courses);
                 UO.Save();
 
 
@@ -74,7 +80,7 @@ namespace Castalia.WEB.Controllers
         }
 
 
-        [HttpPost]
+        
         public ActionResult Delete(int Id)
         {
             string deletedCourse = UO.Courses.Get(Id).CourseName;
@@ -82,7 +88,7 @@ namespace Castalia.WEB.Controllers
 
             TempData["message"] = string.Format("Course \"{0}\" was deleted", deletedCourse);
 
-            return RedirectToAction("Index");
+             return View("Index",UO.Courses.GetAll());
         }
 
         [HttpGet]
@@ -127,15 +133,39 @@ namespace Castalia.WEB.Controllers
             return View("LearnerList", learnerList);
         }
 
+        [HttpPost]
         public ActionResult AddTeacher(string teacherName)
         {
-            UO.Teachers.Create(new Teacher() { TeacherName = teacherName });
-            UO.Save();
-            return View();//same as in index
+
+            if (String.IsNullOrEmpty(teacherName))
+            {
+                TempData["CustomError"] = "Please enter teacher name";
+                ModelState.AddModelError("", "");
+            }
+            if (UO.Teachers.GetAll().Where(x => x.TeacherName == teacherName).FirstOrDefault() != null)
+            {
+                TempData["CustomError"] = "You can`t add existing teacher";
+                ModelState.AddModelError("", "");
+            }
+            if (teacherName.All(x => !(char.IsLetter(x) || char.IsWhiteSpace(x)||x=='-')))
+            {
+                TempData["CustomError"] = "Unacceptable symbols detected";
+                ModelState.AddModelError("", "");
+            }
+
+            if (ModelState.IsValid)
+            {
+                UO.Teachers.Create(new Teacher() { TeacherName = teacherName });
+                UO.Save();
+            }
+            return RedirectToAction("TeacherView");//same as in index
         }
 
         public ActionResult TeacherView(int page = 1)
         {
+            if (TempData["CustomError"] != null)
+                ModelState.AddModelError("", TempData["CustomError"].ToString());
+            
 
             CourseListViewModel courseList = new CourseListViewModel()
             {
@@ -163,6 +193,7 @@ namespace Castalia.WEB.Controllers
             UO.Courses.Get(id).Teacher = UO.Teachers.Get(teacherId);
             UO.Save();
 
+
             CourseListViewModel courseList = new CourseListViewModel()
             {
                 Courses = new List<Course>(),
@@ -189,7 +220,7 @@ namespace Castalia.WEB.Controllers
         {
             return PartialView();
         }
-       
+   
 
     }
 }
