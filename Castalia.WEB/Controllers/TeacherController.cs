@@ -22,15 +22,12 @@ namespace Castalia.WEB.Controllers
 
         public ViewResult Index(string currCourse, int page = 1)
         {
-           
             string teacherName = UO.NickName.GetAll()
                 .Where(m=>m.UserName==HttpContext.User.Identity.Name)
                 .First().Teacher.TeacherName;
-            if (TempData["CustomError"] != null)
-            {
-                ModelState.AddModelError("Mark", TempData["CustomError"].ToString());
-            }
 
+            if (TempData["CustomError"] != null)
+                ModelState.AddModelError("Mark", TempData["CustomError"].ToString());
 
             LearnerViewModel learnerView = new LearnerViewModel()
             {
@@ -49,17 +46,16 @@ namespace Castalia.WEB.Controllers
 
             foreach (var log in UO.Logs.GetAll().Where(x => x.Course.CourseName == learnerView.CurrentCourse))
                 learnerView.logs.Add(log);
+
             learnerView.PagingInfo.TotalItems = learnerView.logs.Count();
             var courses = UO.Courses.GetAll();
             foreach (var course in courses)
-            {
                 if (course.Teacher != null && course.Teacher.TeacherName == teacherName)
-                {
                     learnerView.CoursesList.Add(course.CourseName);
-                }
-            }
+
             learnerView.logs = learnerView.logs.Skip((page - 1) * PageSize)
                     .Take(PageSize).ToList();
+
             return View(learnerView);
         }
 
@@ -75,13 +71,15 @@ namespace Castalia.WEB.Controllers
             //Checkig for validation errors
             if (ModelState.IsValid)
             {
-                UO.Logs.Get(LogId).Mark = Mark;
+                var log = UO.Logs.Get(LogId);
+                log.Mark = Mark;
                 UO.Save();
+                TempData["message"] = string.Format("Student {0} was rated in course \"{1}\"", log.Lerner.LearnerName, log.Course.CourseName);
             }
             return RedirectToAction("Index");
         }
 
-        //[Authorize(Roles = "admin")]
+        
         [HttpGet]
         [AllowAnonymous]
         public PartialViewResult TeacherListPartial (int Id)

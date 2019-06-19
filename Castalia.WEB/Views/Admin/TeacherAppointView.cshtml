@@ -10,7 +10,6 @@
 }
 <div class="secondaryContainer">
 
-
     <h2>Register new teacher</h2>
 
     @using (Html.BeginForm("AddTeacher", "Admin", FormMethod.Post))
@@ -40,9 +39,9 @@
                 <div class="card-body">
                     <h4 class="card-title"> @course.CourseName</h4>
 
-                    <div id="TeacherContainer">
+                    <div id=@course.CourseName>
                         @Ajax.ActionLink("Appoint teacher", "TeacherListPartial", "Teacher", new { Id= course.Id },
-                 new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "TeacherContainer", InsertionMode = InsertionMode.Replace }
+                 new AjaxOptions { HttpMethod = "GET", UpdateTargetId = @course.CourseName, InsertionMode = InsertionMode.Replace }
                  , new { @class = "btn btn-block btn-info btn-lg custom" })
                     </div>
 
@@ -50,8 +49,8 @@
             </div>
         }
     </div>
-
+</div>
     <div>
-        @Html.PageLinks(Model.PagingInfo, x => Url.Action("TeacherView",
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("TeacherAppointView",
        new { page = x }))
     </div>

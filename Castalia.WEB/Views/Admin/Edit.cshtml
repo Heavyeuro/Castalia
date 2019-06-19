@@ -2,11 +2,9 @@
 
 @{
 
-    ViewBag.Title = Model.CourseName!=null?"Editing":"Adding";
+    ViewBag.Title = Model.CourseName != null ? "Editing" : "Adding";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 
 @using (Html.BeginForm("Edit", "Admin"))
 {
@@ -49,7 +47,6 @@
         </div>
 
 
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -57,7 +54,3 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

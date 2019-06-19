@@ -6,7 +6,7 @@
 }
 <div class="secondaryContainer">
     <div class="row">
-        <h3>Sort by: </h3>
+        <h4>Sort by: </h4>
         @foreach (var order in Model.SortedParam)
         {
             <div class="col-lg-3 ">
@@ -24,7 +24,7 @@
                 <div class="card-header">@p.CourseName  <div class="text-lg-right">Topic name: @p.Topic.TopicName</div></div>
                 <div class="card-body">
                     <h6 class="card-title">
-                        Teacher:@if (p.Teacher == null)
+                        Teacher: @if (p.Teacher == null)
                         {@Html.Raw("The teacher has not been appointed")}
                     else
                     { @p.Teacher.TeacherName}

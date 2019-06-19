@@ -346,8 +346,7 @@
     <Content Include="Views\Admin\LearnerListEdit.cshtml" />
     <Content Include="Views\Home\TeacherView.cshtml" />
     <Content Include="Views\Home\TopicView.cshtml" />
-    <Content Include="Views\Admin\TeacherView.cshtml" />
-    <Content Include="Views\Shared\AdminNav.cshtml" />
+    <Content Include="Views\Admin\TeacherAppointView.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\StudentsCourses.cshtml" />
     <Content Include="Views\Shared\Navigation.cshtml" />

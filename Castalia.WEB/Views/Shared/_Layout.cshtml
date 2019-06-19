@@ -13,29 +13,22 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
-            <img src="~/Content/Pictures/brain.png" width="100"  class="d-inline-block align-top" alt="">
+            <img src="~/Content/Pictures/brain.png" width="100" class="d-inline-block align-top" alt="">
             @Html.ActionLink("Castalia", "SelectionByTopic", "Home", new { area = "" }, new { @class = "navbar-brand " })
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto">
-
-                <li class="nav-item active">
-                    @Html.ActionLink("Courses", "SelectionByTopic", "Home", null, new { @class = "btn btn-block btn-info btn-lg custom" })
-                </li>
-
-            </ul>
+        <div class="collapse navbar-collapse right" id="navbarColor02">
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
     <div id="mainContainer" class="container container-fluid jumbotron">
-        <div class="row">
             @if (TempData["message"] != null)
             {
                 <div class="alert alert-success">@TempData["message"]</div>
             }
+        <div class="row">
             <main class="col-sm-9">
                 @RenderBody()
             </main>
@@ -46,32 +39,24 @@
                 @if (ViewBag.Title == "Courses")
                 {
                     <h3>Course selection:</h3>
-                 
-
-                
                     <div id="ContainerTopic">
                         @Ajax.ActionLink("By Topic", "MenuTopic", "Nav", new { sortingParam = ViewBag.sortingParam },
                             new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "ContainerTopic", InsertionMode = InsertionMode.Replace }
                             , new { @class = "btn btn-block btn-info btn-lg custom" })
                     </div>
-                    
-                
-                <div id="ContainerTeacher">
-                    @Ajax.ActionLink("By Teacher", "MenuTeacher", "Nav", new { sortingParam = ViewBag.sortingParam },
-                   new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "ContainerTeacher", InsertionMode = InsertionMode.Replace }
-                   , new { @class = "btn btn-block btn-info btn-lg custom" })
-                </div>
+
+                    <div id="ContainerTeacher">
+                        @Ajax.ActionLink("By Teacher", "MenuTeacher", "Nav", new { sortingParam = ViewBag.sortingParam },
+                       new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "ContainerTeacher", InsertionMode = InsertionMode.Replace }
+                       , new { @class = "btn btn-block btn-info btn-lg custom" })
+                    </div>
                 }
             </div>
-        </div>  
-
+        </div>
     </div>
     <hr />
     <footer id="footer" class="card-footer ">
         <div class="row">
-        
-
-
             <div class="offset-2">
                 <p>&copy; @DateTime.Now.Year - Nikolay Butkevich</p>
             </div>

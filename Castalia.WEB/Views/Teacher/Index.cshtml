@@ -1,66 +1,66 @@
 ﻿@model Castalia.WEB.Models.LearnerViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Teacher's room";
 }
 
 <div class="secondaryContainer">
-<div class="row">
-    <div class="col-md-8">
-        @if (Model.logs.Count == 0)
-        {<h3>There are no one student on chosen course</h3>}
-        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-        @foreach (var log in Model.logs)
-        {
+    <div class="row">
+        <div class="col-md-8">
+            @if (Model.logs.Count == 0)
+            {<h3>There are no one student on chosen course</h3>}
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            @foreach (var log in Model.logs)
+            {
 
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">@log.Lerner.LearnerName</div>
-                <div class="card-body">
-                    <p class="card-text">Register date:  @log.RegisterDate.ToShortDateString()</p>
-                    <p class="card-text">Date of finishing: @log.RegisterDate.AddDays(log.Course.DurationDays).ToShortDateString()</p>
-                    @if (((log.RegisterDate.AddDays(log.Course.DurationDays) - DateTime.Now).TotalDays) > 0 && log.Mark==null)
-                    {<p class="text-danger">Course is allready finished, please reate exact learner </p>}
+                <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">@log.Lerner.LearnerName</div>
+                    <div class="card-body">
+                        <p class="card-text">Register date:  @log.RegisterDate.ToShortDateString()</p>
+                        <p class="card-text">Date of finishing: @log.RegisterDate.AddDays(log.Course.DurationDays).ToShortDateString()</p>
+                        @if (((log.RegisterDate.AddDays(log.Course.DurationDays) - DateTime.Now).TotalDays) > 0 && log.Mark == null)
+                        {<p class="text-danger">Course is allready finished, please reate exact learner </p>}
 
-                    @if (log.Mark == null)
-                    {
-                        using (Html.BeginForm("AddRate", "Teacher", FormMethod.Post))
+                        @if (log.Mark == null)
                         {
+                            using (Html.BeginForm("AddRate", "Teacher", FormMethod.Post))
+                            {
 
-                            @Html.AntiForgeryToken()
-                            <input id="LogId" name="LogId" type="hidden" value=@log.Id />
-                            <div class="form-group row">
-                                <label class="col-form-label col-7" for="inputDefault">Place for mark(1-100)</label>
-                                <input type="text" class="form-control col-3" name="Mark" id="Mark">
+                                @Html.AntiForgeryToken()
+                                <input id="LogId" name="LogId" type="hidden" value=@log.Id />
+                                <div class="form-group row">
+                                    <label class="col-form-label col-7" for="inputDefault">Place for mark(1-100)</label>
+                                    <input type="text" class="form-control col-3" name="Mark" id="Mark">
 
-                            </div>
-                            <br />
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <button type="submit" class="btn btn-primary">Rate learner </button>
                                 </div>
-                            </div>
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button type="submit" class="btn btn-primary">Rate learner </button>
+                                    </div>
+                                </div>
+                            }
                         }
-                    }
-                    else
-                    {
-                        @Html.Raw("Mark:")
-                        @log.Mark
-                    }
+                        else
+                        {
+                            @Html.Raw("Mark:")
+                            @log.Mark
+                        }
 
+                    </div>
                 </div>
-            </div>
-        }
+            }
+
+        </div>
+        <div class="col-md-3">
+            @foreach (var course in Model.CoursesList)
+            {
+                @Html.ActionLink(course, "Index", new { currCourse = course },
+               new { @class = "btn btn-block btn-primary btn-lg custom" + (course == Model.CurrentCourse ? " btn-warning " : "" )})
+            }
+        </div>
 
     </div>
-    <div class="col-md-3">
-        @foreach (var course in Model.CoursesList)
-        {
-            @Html.ActionLink(course, "Index", new { currCourse = course },
-           new { @class = "btn btn-block btn-primary btn-lg custom" + (course == Model.CurrentCourse ? " btn-warning " : "" )})
-        }
-    </div>
-
-</div>
 </div>
 <div>
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index",

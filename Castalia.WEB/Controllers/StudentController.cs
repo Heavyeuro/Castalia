@@ -21,10 +21,8 @@ namespace Castalia.WEB.Controllers
             UO = repo;
         }
 
-
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
-
             string learnerName = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .First().Learner.LearnerName;
@@ -36,7 +34,6 @@ namespace Castalia.WEB.Controllers
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                 }
-
             };
             switch (logModel.CourseStatus)
             {
@@ -62,19 +59,19 @@ namespace Castalia.WEB.Controllers
             return View(logModel);
         }
 
-
         public ActionResult Register(int Id)
         {
-            string currentStudent = UO.NickName.GetAll()
+            var currentStudent = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
-                .First().Learner.LearnerName;
+                .First().Learner;
+
             Course course = UO.Courses.Get(Id);
-            if (course.StartDate > DateTime.Now)
+            if (course.StartDate > DateTime.Now && !currentStudent.IsBlocked )
             {
                 Log log = new Log()
                 {
                     RegisterDate = DateTime.Now,
-                    Lerner = UO.Learners.GetAll().Where(x => x.LearnerName == currentStudent).First(),
+                    Lerner = UO.Learners.GetAll().Where(x => x.LearnerName == currentStudent.LearnerName).First(),
                     Course = course
                 };
                 UO.Logs.Create(log);
@@ -84,8 +81,6 @@ namespace Castalia.WEB.Controllers
             }
             else
                 TempData["message"] = string.Format("Unfortunatly course \"{0}\" isn't available for registration", course.CourseName);
-
-
 
             return RedirectToAction("SelectionByTopic", "Home", null);
         }
