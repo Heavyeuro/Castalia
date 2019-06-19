@@ -243,6 +243,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Pictures\brain.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -344,7 +345,7 @@
     <Content Include="Views\Shared\AdminNav.cshtml" />
     <Content Include="Views\Teacher\Index.cshtml" />
     <Content Include="Views\Student\StudentsCourses.cshtml" />
-    <Content Include="Views\Shared\StudentNav.cshtml" />
+    <Content Include="Views\Shared\Navigation.cshtml" />
     <Content Include="Views\SelfCabinet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

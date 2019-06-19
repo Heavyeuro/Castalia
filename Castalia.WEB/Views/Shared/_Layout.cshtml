@@ -11,7 +11,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="#">
-            <img src="~/Content/Images/brick-wall-3144597.jpg" width="110" height="40" class="d-inline-block align-top" alt="">
+            <img src="~/Content/Pictures/brain.png" width="100"  class="d-inline-block align-top" alt="">
             @Html.ActionLink("Castalia", "SelectionByTopic", "Home", new { area = "" }, new { @class = "navbar-brand " })
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,8 @@
                 @RenderBody()
             </main>
             <div class="col-sm-3 " style="background-color:aquamarine">
-                @Html.Partial("StudentNav")
+                <br />
+                @Html.Partial("Navigation")
 
                 @if (ViewBag.Title == "Courses")
                 {
