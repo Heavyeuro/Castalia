@@ -5,8 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title </title>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    @Scripts.Render("~/scripts/jquery-3.4.1.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @*<script>
+        $('#loadPartialActionLink').on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "GET",
+                url: '/Admin/AdminNav',
+                success: function (data, textStatus, jqXHR) {
+                    $('#AJAXContainer').html(data);
+                }
+            });
+        });
+    </script>*@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -44,18 +58,31 @@
                 @if (ViewBag.Title == "Courses")
                 {
                     <h3>Course selection:</h3>
-                    <h4>By Topic</h4>
-                    @Html.Action("MenuTopic", "Nav")
-                    <h4>By Teacher</h4>
-                    @Html.Action("MenuTeacher", "Nav")
+                 
+
+                
+                    <div id="ContainerTopic">
+                        @Ajax.ActionLink("By Topic", "MenuTopic", "Nav", new { sortingParam = ViewBag.sortingParam },
+                            new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "ContainerTopic", InsertionMode = InsertionMode.Replace }
+                            , new { @class = "btn btn-block btn-info btn-lg custom" })
+                    </div>
+                    
+                
+                <div id="ContainerTeacher">
+                    @Ajax.ActionLink("By Teacher", "MenuTeacher", "Nav", new { sortingParam = ViewBag.sortingParam },
+                   new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "ContainerTeacher", InsertionMode = InsertionMode.Replace }
+                   , new { @class = "btn btn-block btn-info btn-lg custom" })
+                </div>
                 }
             </div>
-        </div>
+        </div>  
 
     </div>
     <hr />
     <footer id="footer" class="card-footer ">
         <div class="row">
+        
+
 
             <div class="offset-2">
                 <p>&copy; @DateTime.Now.Year - Nikolay Butkevich</p>

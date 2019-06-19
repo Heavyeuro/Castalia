@@ -42,7 +42,6 @@ namespace Castalia.WEB.Controllers
         public PartialViewResult MenuTeacher(string sortingParam = null)
         {
             ViewBag.SelectedTeacher = sortingParam;
-
             IEnumerable<string> topics = repository.Teachers.GetAll().Select(p => p.TeacherName).Distinct();
             return PartialView(topics);
         }

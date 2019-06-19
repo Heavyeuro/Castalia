@@ -62,10 +62,6 @@ namespace Castalia.WEB.Controllers
             return View(logModel);
         }
 
-        public ActionResult StudentNav()
-        {
-            return PartialView();
-        }
 
         public ActionResult Register(int Id)
         {

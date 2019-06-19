@@ -34,6 +34,8 @@ namespace Castalia.WEB.Controllers
                     if (a.TopicName == sortingParam) amountOfItems++;
             CourseListViewModel model = CourseListInitializer(amountOfItems, sortOrder, sortingParam, page);
 
+            ViewBag.sortingParam = sortingParam;
+
             model.Courses = SortingCourses(UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam)
                    , sortOrder).Skip((page - 1) * PageSize)
@@ -58,7 +60,7 @@ namespace Castalia.WEB.Controllers
             else
                 foreach (var a in UO.Teachers.GetAll())
                     if (a.TeacherName == sortingParam) amountOfItems++;
-
+            ViewBag.sortingParam = sortingParam;
 
             CourseListViewModel model = CourseListInitializer(amountOfItems, sortOrder, sortingParam, page);
 

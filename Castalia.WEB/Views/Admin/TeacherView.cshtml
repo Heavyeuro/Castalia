@@ -22,20 +22,8 @@
         </div>
     </div>
 }
-<script type="text/javascript">
-    $('#loadViewButton').on('click', function () {
-        $.ajax({
-            type: "GET",
-            url: '/YourController/YourAction',
-            success: function (data, textStatus, jqXHR) {
-                $('#partialViewContainer').html(data);
-            }
-        });
-    });
-</script>
+
 <div>
-
-
     <h4>Courses without teacher</h4>
     <hr />
     @foreach (var course in Model.Courses)

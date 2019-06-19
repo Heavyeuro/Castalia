@@ -183,11 +183,13 @@ namespace Castalia.WEB.Controllers
             return View("TeacherView", courseList);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult AdminNav()
         {
             return PartialView();
         }
-
+       
 
     }
 }
