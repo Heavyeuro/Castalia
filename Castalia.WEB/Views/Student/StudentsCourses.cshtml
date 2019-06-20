@@ -22,8 +22,8 @@
 
 @foreach (var log in Model.Logs)
 {
-    <div class="card border-primary mb-3" style="max-width: 20rem;">
-        <div class="card-header">@log.Course.CourseName</div>
+    <section class="card border-primary mb-3" style="max-width: 20rem;">
+        <header class="card-header">@log.Course.CourseName</header>
         <div class="card-body">
             Amount of students in course: @log.Course.AmountOfStudents
             <p class="card-text">You registred @log.RegisterDate.ToShortDateString()</p>
@@ -52,6 +52,6 @@
                         break;
                 }
         </div>
-    </div>
+    </section>
 }
 

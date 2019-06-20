@@ -13,8 +13,8 @@
             @foreach (var log in Model.logs)
             {
 
-                <div class="card border-primary mb-3" style="max-width: 20rem;">
-                    <div class="card-header">@log.Lerner.LearnerName</div>
+                <section class="card border-primary mb-3" style="max-width: 20rem;">
+                    <header class="card-header">@log.Lerner.LearnerName</header>
                     <div class="card-body">
                         <p class="card-text">Register date:  @log.RegisterDate.ToShortDateString()</p>
                         <p class="card-text">Date of finishing: @log.RegisterDate.AddDays(log.Course.DurationDays).ToShortDateString()</p>
@@ -48,7 +48,7 @@
                         }
 
                     </div>
-                </div>
+                </section>
             }
 
         </div>

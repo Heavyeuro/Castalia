@@ -21,10 +21,11 @@ namespace Castalia.WEB.Heplers
                     TagBuilder tag = new TagBuilder("a");
                     tag.MergeAttribute("href", pageUrl(i));
                     tag.InnerHtml = i.ToString();
-                    tag.AddCssClass("btn-primary");
-                    //if is selected add class selected
                     if (i == pagingInfo.CurrentPage)
-                        tag.AddCssClass("selected");
+                    {
+                        tag.AddCssClass("btn-primary selected");
+                    }
+                    tag.AddCssClass("btn btn-default");;
                     result.Append(tag.ToString());
                 }
             }

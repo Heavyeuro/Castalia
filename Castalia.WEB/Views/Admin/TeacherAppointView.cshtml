@@ -34,8 +34,8 @@
         <h4>Courses without teacher</h4>
         @foreach (var course in Model.Courses)
         {
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">Topic:  @course.Topic.TopicName</div>
+            <section class="card border-primary mb-3" style="max-width: 20rem;">
+                <header class="card-header">Topic:  @course.Topic.TopicName</header>
                 <div class="card-body">
                     <h4 class="card-title"> @course.CourseName</h4>
 
@@ -46,7 +46,7 @@
                     </div>
 
                 </div>
-            </div>
+            </section>
         }
     </div>
 </div>

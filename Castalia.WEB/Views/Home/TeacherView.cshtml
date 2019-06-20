@@ -20,8 +20,8 @@
         @foreach (var p in @Model.Courses)
 
         {
-            <div class="card text-white col-5 bg-primary m-3" style="max-width: 20rem;">
-                <div class="card-header">@p.CourseName  <div class="text-lg-right">Topic name: @p.Topic.TopicName</div></div>
+            <section class="card text-white col-5 bg-primary m-3" style="max-width: 20rem;">
+                <header class="card-header">@p.CourseName  <div class="text-lg-right">Topic name: @p.Topic.TopicName</div></header>
                 <div class="card-body">
                     <h6 class="card-title">
                         Teacher:  @if (p.Teacher == null)
@@ -45,7 +45,7 @@
                         }
                     }
                 </div>
-            </div>
+            </section>
         }
     </div>
 </div>

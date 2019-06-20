@@ -12,8 +12,8 @@
     <div class="row">
         @foreach (var item in Model.Learners)
         {
-            <div class="card border-primary m-3 col-5" style="max-width: 20rem;">
-                <div class="card-header"><h4>@item.LearnerName</h4></div>
+            <section class="card border-primary m-3 col-5" style="max-width: 20rem;">
+                <header class="card-header"><h4>@item.LearnerName</h4></header>
                 <div class="card-body">
                     Status:
                     @if (item.IsBlocked)
@@ -25,7 +25,7 @@
                    new { Id = item.Id ,page=Model.PagingInfo.CurrentPage})
                     </p>
                 </div>
-            </div>
+            </section>
         }
     </div>
 </div>

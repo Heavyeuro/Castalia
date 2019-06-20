@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Castalia.WEB.Models;
 using Castalia.Domain.Entities;
+using Castalia.WEB.Infrastructure;
 
 namespace Castalia.WEB.Controllers
 {
@@ -63,15 +64,21 @@ namespace Castalia.WEB.Controllers
         }
 
         //POST
+        [BlockedStudentException]
         public ActionResult Register(int Id)
         {
+
             var currentStudent = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .First().Learner;
 
+            if (currentStudent.IsBlocked)
+                throw new BlockedStudentException(currentStudent.LearnerName); 
+            
+
             //initializing model for registration
             Course course = UO.Courses.Get(Id);
-            if (course.StartDate > DateTime.Now && !currentStudent.IsBlocked )
+            if (course.StartDate > DateTime.Now )//&& !currentStudent.IsBlocked)
             {
                 Log log = new Log()
                 {
