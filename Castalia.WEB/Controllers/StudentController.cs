@@ -21,11 +21,14 @@ namespace Castalia.WEB.Controllers
             UO = repo;
         }
 
+        //GET 
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
             string learnerName = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .First().Learner.LearnerName;
+
+            //initializing view model for exact learner 
             LogViewModel logModel = new LogViewModel()
             {
                 CourseStatus = courseStatus,
@@ -35,6 +38,7 @@ namespace Castalia.WEB.Controllers
                     ItemsPerPage = PageSize,
                 }
             };
+            //sorting courses according date
             switch (logModel.CourseStatus)
             {
                 case "notStarted":
@@ -55,16 +59,17 @@ namespace Castalia.WEB.Controllers
                     && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
 
             logModel.PagingInfo.TotalItems = logModel.Logs.Count();
-
             return View(logModel);
         }
 
+        //POST
         public ActionResult Register(int Id)
         {
             var currentStudent = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .First().Learner;
 
+            //initializing model for registration
             Course course = UO.Courses.Get(Id);
             if (course.StartDate > DateTime.Now && !currentStudent.IsBlocked )
             {
@@ -75,11 +80,13 @@ namespace Castalia.WEB.Controllers
                     Course = course
                 };
                 UO.Logs.Create(log);
+                //adding 1 to amouny of students
                 course.AmountOfStudents++;
                 UO.Save();
                 TempData["message"] = string.Format("Successful registration on course\"{0}\" !", course.CourseName);
             }
             else
+                // If we got this far, something failed, redisplay form
                 TempData["message"] = string.Format("Unfortunatly course \"{0}\" isn't available for registration", course.CourseName);
 
             return RedirectToAction("SelectionByTopic", "Home", null);

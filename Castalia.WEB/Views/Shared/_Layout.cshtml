@@ -11,23 +11,22 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">
-            <img src="~/Content/Pictures/brain.png" width="100" class="d-inline-block align-top" alt="">
-            @Html.ActionLink("Castalia", "SelectionByTopic", "Home", new { area = "" }, new { @class = "navbar-brand " })
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse right" id="navbarColor02">
-            @Html.Partial("_LoginPartial")
+    <nav class="navbar  navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <div class="navbar-header">
+                <img src="~/Content/Pictures/brain.png" width="100" class="d-inline-block " alt="main-logo">
+                @Html.ActionLink("Castalia", "SelectionByTopic", "Home", new { area = "" }, new { @class = "navbar-brand " })
+            </div>
+            <div class="navbar-collapse collapse justify-content-end">
+                @Html.Partial("_LoginPartial")
+            </div>
         </div>
     </nav>
     <div id="mainContainer" class="container container-fluid jumbotron">
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-success">@TempData["message"]</div>
-            }
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success">@TempData["message"]</div>
+        }
         <div class="row">
             <main class="col-sm-9">
                 @RenderBody()

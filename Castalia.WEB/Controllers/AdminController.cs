@@ -25,6 +25,8 @@ namespace Castalia.WEB.Controllers
             return View(UO.Courses.GetAll());
         }
 
+        //
+        // GET: /Admin/Edit
         [HttpGet]
         public ViewResult Edit(int Id)
         {
@@ -42,14 +44,14 @@ namespace Castalia.WEB.Controllers
             return View(courseVM);
         }
 
+
+        //
+        // Post: /Admin/Edit
         [HttpPost]
         public ActionResult Edit(CourseViewModel course, int Id)
         {
-            //if(string.IsNullOrEmpty(course.CourseName))
-            //    ModelState.AddModelError("CourseName", "Введите свое имя");
-            //Checkig for validation errors
             if (ModelState.IsValid)
-            {
+            {//creating new instance in adding case
                 Course courses;
                 if (Id != 0)
                    courses = UO.Courses.Get(course.Id);
@@ -59,20 +61,22 @@ namespace Castalia.WEB.Controllers
                 courses.CourseName = course.CourseName;
                 courses.StartDate = course.StartDate;
                 
-
+                //if topic exist retriving it from DB otherwise creating new
                 if (UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).Count() > 0)
                     courses.Topic = UO.Topics.Get(UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).First().Id);
                 else courses.Topic = new Topic { TopicName = course.Topic };
                 UO.Courses.Update(courses);
                 UO.Save();
-
+                
                 TempData["message"] = string.Format("Changes in course \"{0}\" was saved", course.CourseName);
                 return RedirectToAction("Index");
             }
             else
+                // If we got this far, something failed, redisplay form
                 return View(course);
         }
 
+        //creating new item using Edit action
         public ViewResult Create()
         {
             return View("Edit", new CourseViewModel());
@@ -92,6 +96,7 @@ namespace Castalia.WEB.Controllers
         [HttpGet]
         public ActionResult LearnerList(int page = 1)
         {
+            //creating instance of view model
             return View( new LearnerListViewModel()
             {
                 Learners = UO.Learners.GetAll().Skip((page - 1) * PageSize)
@@ -116,6 +121,7 @@ namespace Castalia.WEB.Controllers
         [HttpPost]
         public ActionResult AddTeacher(string teacherName)
         {
+            //Checking for validation error
             if (String.IsNullOrEmpty(teacherName))
                 TempData["CustomError"] = "Please enter teacher name";
                 
@@ -124,7 +130,7 @@ namespace Castalia.WEB.Controllers
 
             if (teacherName.All(x => !(char.IsLetter(x) || char.IsWhiteSpace(x)||x=='-')))
                 TempData["CustomError"] = "Unacceptable symbols detected";
-            
+            //if no one error ocured adding to DB
             if (TempData["CustomError"]==null)
             {
                 UO.Teachers.Create(new Teacher() { TeacherName = teacherName });
@@ -136,6 +142,7 @@ namespace Castalia.WEB.Controllers
 
         public ActionResult TeacherAppointView(int page = 1)
         {
+            //checkig for validation error
             if (TempData["CustomError"] != null)
                 ModelState.AddModelError("", TempData["CustomError"].ToString());
             
@@ -149,17 +156,17 @@ namespace Castalia.WEB.Controllers
                     ItemsPerPage = PageSize
                 }
             };
-            //foreach (var course in UO.Courses.GetAll())
-            //    if (course.Teacher == null)
-            //        courseList.Courses.Add(course);
-
             courseList.PagingInfo.TotalItems= courseList.Courses.Count();
 
             return View(courseList);
         }
 
+        //
+        // POST
+        //Appointing teacher to course
         public ActionResult AppointTeacher(int id, int teacherId)
         {
+            //Appointing only between existing teachers
             UO.Courses.Get(id).Teacher = UO.Teachers.Get(teacherId);
             UO.Save();
             return RedirectToAction("TeacherAppointView");

@@ -21,8 +21,6 @@ namespace Castalia.WEB.Controllers
         /// <summary>
         /// Creates list of topic name links
         /// </summary>
-        /// <param name="sortingParam"></param>
-        /// <returns></returns>
         public PartialViewResult MenuTopic(string sortingParam = null)
         {
             ViewBag.SelectedTopic = sortingParam;
@@ -35,10 +33,8 @@ namespace Castalia.WEB.Controllers
         }
 
         /// <summary>
-        /// Creates list of teacher ame links
+        /// Creates list of teacher name links
         /// </summary>
-        /// <param name="sortingParam"></param>
-        /// <returns></returns>
         public PartialViewResult MenuTeacher(string sortingParam = null)
         {
             ViewBag.SelectedTeacher = sortingParam;

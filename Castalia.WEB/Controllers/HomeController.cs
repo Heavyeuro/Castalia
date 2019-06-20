@@ -26,17 +26,16 @@ namespace Castalia.WEB.Controllers
         {
             var courses = UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam);
-
-            int amountOfItems = courses.Count();
-
+            
+            //initializing view model
             CourseListViewModel model = CourseListInitializer( sortOrder, sortingParam, page);
-            model.PagingInfo.TotalItems=amountOfItems;
+            model.PagingInfo.TotalItems= courses.Count();
             ViewBag.sortingParam = sortingParam;
-
+            //select courses that fit the paging condition
             model.Courses = SortingCourses(courses, sortOrder)
                    .Skip((page - 1) * PageSize)
                    .Take(PageSize).ToList();
-
+            //opportunity for learner to register on course
             if (User.IsInRole("user"))
                 model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
 
@@ -48,25 +47,24 @@ namespace Castalia.WEB.Controllers
         /// </summary>
         public ViewResult SelectionByTeacher(string sortingParam, string sortOrder, int page = 1)
         {
-
+            //initializing view model
             ViewBag.sortingParam = sortingParam;
-
             CourseListViewModel model = CourseListInitializer( sortOrder, sortingParam, page);
-
             model.Courses = SortingCourses(GetCourses(sortingParam), sortOrder).ToList();
-
             model.PagingInfo.TotalItems = model.Courses.Count();
 
+            //select courses that fit the paging condition
             model.Courses = model.Courses.Skip((page - 1) * PageSize)
                     .Take(PageSize).ToList();
 
+            //opportunity for learner to register on course
             if (User.IsInRole("user"))
                 model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
 
             return View("TeacherView", model);
         }
 
-
+        //redirect for unexpected casess
         public ActionResult Index()
         {
             return RedirectToAction("SelectionByTopic");
@@ -74,7 +72,7 @@ namespace Castalia.WEB.Controllers
 
         public CourseListViewModel CourseListInitializer( string sortOrder, string sortingParam, int page = 1)
         {
-
+            //initializing dictionary of sorting parameters
             Dictionary<string, string> sortedParam = new Dictionary<string, string>(3);
             sortedParam.Add(sortOrder == "name" ? "name_desc" : "name", sortOrder == "name" ? "Names (A-Z)" : "Names (Z-A)");
             sortedParam.Add(sortOrder == "duration" ? "duration_desc" : "duration", sortOrder == "duration" ? "Less duratoion" : "Greater duration");
@@ -90,8 +88,11 @@ namespace Castalia.WEB.Controllers
                 CurrentParameter = sortingParam,
                 SortedParam = sortedParam
             };
-
         }
+
+        /// <summary>
+        /// sorting courses according to given order
+        /// </summary>
         public IEnumerable<Course> SortingCourses(IEnumerable<Course> courses, string sortOrder)
         {
             switch (sortOrder)
@@ -120,6 +121,10 @@ namespace Castalia.WEB.Controllers
             }
             return courses.ToList();
         }
+
+        /// <summary>
+        /// geting list of courses dispite courses without teacher
+        /// </summary>
         public IEnumerable<Course> GetCourses( string sortParam)
         {
             var courses = UO.Courses.GetAll();
@@ -135,6 +140,9 @@ namespace Castalia.WEB.Controllers
             return courses;
         }
   
+        /// <summary>
+        /// initializing dictionary that give information about current student according exact course
+        /// </summary>
         public Dictionary<int, bool> StudentRefisterPosibility(List<Course> courses)
         {
             string currentStudent = UO.NickName.GetAll()

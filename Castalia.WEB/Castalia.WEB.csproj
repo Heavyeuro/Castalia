@@ -307,7 +307,7 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Errors\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -352,6 +352,7 @@
     <Content Include="Views\Shared\Navigation.cshtml" />
     <Content Include="Views\SelfCabinet\Index.cshtml" />
     <Content Include="Views\Teacher\TeacherListPartial.cshtml" />
+    <Content Include="Views\Errors\EditWhithoutParamError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

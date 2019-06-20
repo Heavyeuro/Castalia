@@ -20,12 +20,14 @@ namespace Castalia.WEB.Controllers
             UO = repo;
         }
 
+        //GET
         public ViewResult Index(string currCourse, int page = 1)
         {
             string teacherName = UO.NickName.GetAll()
                 .Where(m=>m.UserName==HttpContext.User.Identity.Name)
                 .First().Teacher.TeacherName;
 
+            //chech for validation error
             if (TempData["CustomError"] != null)
                 ModelState.AddModelError("Mark", TempData["CustomError"].ToString());
 
@@ -41,18 +43,20 @@ namespace Castalia.WEB.Controllers
                 }
             };
 
+            //select course name according current name
             if (currCourse == null)
                 learnerView.CurrentCourse = UO.Courses.GetAll().Where(x => x.Teacher.TeacherName == teacherName).First().CourseName;
 
             foreach (var log in UO.Logs.GetAll().Where(x => x.Course.CourseName == learnerView.CurrentCourse))
                 learnerView.logs.Add(log);
-
             learnerView.PagingInfo.TotalItems = learnerView.logs.Count();
+
             var courses = UO.Courses.GetAll();
             foreach (var course in courses)
                 if (course.Teacher != null && course.Teacher.TeacherName == teacherName)
                     learnerView.CoursesList.Add(course.CourseName);
-
+            
+            //selecting logs according page context
             learnerView.logs = learnerView.logs.Skip((page - 1) * PageSize)
                     .Take(PageSize).ToList();
 
@@ -63,12 +67,14 @@ namespace Castalia.WEB.Controllers
         public ActionResult AddRate(int LogId, int Mark)
         {
 
+            //Checkig for validation errors
             if (Mark > 100 || Mark < 0)
             {
                 TempData["CustomError"] = "Mark shoyld be in range from 0 to 100";
                 ModelState.AddModelError("","");
             }
-            //Checkig for validation errors
+            
+            //save mark if it is valid
             if (ModelState.IsValid)
             {
                 var log = UO.Logs.Get(LogId);
@@ -79,15 +85,16 @@ namespace Castalia.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        /// <summary>
+        /// in AJAX method display all available teachers
+        /// </summary>
         [HttpGet]
         [AllowAnonymous]
         public PartialViewResult TeacherListPartial (int Id)
         {
             ViewBag.Id = Id;
-            List<Teacher> teachers = new List<Teacher>();
-            teachers = UO.Teachers.GetAll().ToList();
-            return PartialView(teachers);
+
+            return PartialView(UO.Teachers.GetAll().ToList());
         }
     }
 }
