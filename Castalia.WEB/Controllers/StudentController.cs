@@ -26,9 +26,10 @@ namespace Castalia.WEB.Controllers
         [NotConfirmedNameException]
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
-            var a = UO.NickName.GetAll()
+            var checkedForConfirmed = UO.NickName.GetAll()
                    .Where(m => m.UserName == HttpContext.User.Identity.Name)
                    .FirstOrDefault() ?? throw new NotConfirmedNameException(HttpContext.User.Identity.Name);
+            //geting full name of the student
             string learnerName 
                 = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
@@ -48,16 +49,16 @@ namespace Castalia.WEB.Controllers
             logModel.Logs = SortLogs(logModel.CourseStatus,learnerName)
                 .Skip((page - 1) * PageSize).Take(PageSize).ToList();
             
-   
+            //details of pagination
             logModel.PagingInfo.TotalItems = logModel.Logs.Count();
             return View(logModel);
         }
 
         //POST
+        //register student to course
         [BlockedStudentException]
         public ActionResult Register(int Id)
         {
-
             var currentStudent = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .FirstOrDefault().Learner;

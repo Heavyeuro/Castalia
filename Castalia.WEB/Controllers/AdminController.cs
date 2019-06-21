@@ -82,17 +82,18 @@ namespace Castalia.WEB.Controllers
             return View("Edit", new CourseViewModel());
         }
 
-
+        //deleting course by id
         public ActionResult Delete(int Id)
         {
             string deletedCourse = UO.Courses.Get(Id).CourseName;
             UO.Courses.Delete(Id);
-
+            //creating message about success
             TempData["message"] = string.Format("Course \"{0}\" was deleted", deletedCourse);
 
             return View("Index", UO.Courses.GetAll());
         }
 
+        //Shoving all learners
         [HttpGet]
         public ActionResult LearnerList(int page = 1)
         {
@@ -110,6 +111,8 @@ namespace Castalia.WEB.Controllers
             });
         }
 
+        //Post
+        // Block learner by id
         public ActionResult ManagingStudents(int Id, int page = 1)
         {
             //reversing value of isClocked of the exact learner
@@ -118,6 +121,9 @@ namespace Castalia.WEB.Controllers
             return RedirectToAction("LearnerList");
         }
 
+        /// <summary>
+        /// Adding teacher with validation
+        /// </summary>
         [HttpPost]
         public ActionResult AddTeacher(string teacherName)
         {
@@ -147,6 +153,7 @@ namespace Castalia.WEB.Controllers
             if (TempData["CustomError"] != null)
                 ModelState.AddModelError("", TempData["CustomError"].ToString());
 
+            //creating instance of view model
             CourseListViewModel courseList = new CourseListViewModel()
             {
                 Teachers = UO.Teachers.GetAll().ToList(),

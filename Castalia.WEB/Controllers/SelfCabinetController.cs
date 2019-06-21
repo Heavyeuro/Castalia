@@ -17,6 +17,10 @@ namespace Castalia.WEB.Controllers
             UO = repo;
         }
 
+        /// <summary>
+        /// shows view with a very short info about current user
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Index()
         {
@@ -24,35 +28,13 @@ namespace Castalia.WEB.Controllers
             .Where(m => m.UserName == HttpContext.User.Identity.Name)
             .FirstOrDefault();
 
-            //if (User.IsInRole("user"))
-            //{
-            //    //if (currentUser == null)
-            //    //    currentUser = "Please,enter your full name";
-
-            //}
-            return View(currentUser);//(currentUser);
+            return View(currentUser);
           
         }
 
-        //[HttpPost]
-        //public ActionResult Index()
-        //{
-        //    var currentUser = UO.NickName.GetAll()
-        //    .Where(m => m.UserName == HttpContext.User.Identity.Name)
-        //    .FirstOrDefault().Learner;
-
-        //    if (User.IsInRole("user"))
-        //    {
-        //        if (currentUser == null)
-
-        //    }
-        //    return View();
-        //    //    if (User.IsInRole("teacher"))
-
-
-        //    return View();
-        //}
-
+        /// <summary>
+        /// bounded full name of learner with specific nickname
+        /// </summary>
         [HttpPost]
         public ActionResult AddFullName(string FullName,NicknameName currentUser)
         {
@@ -62,7 +44,7 @@ namespace Castalia.WEB.Controllers
                 if (UO.NickName.GetAll().Where(x => x.Learner.LearnerName == FullName).First() != null)
                     ModelState.AddModelError("", "This name is already used");
             }
-            catch (NullReferenceException) { }
+            catch (NullReferenceException) { }//if we got it fits 
          
             if (String.IsNullOrEmpty(FullName))
                 ModelState.AddModelError("", "Please enter your full name");
@@ -77,7 +59,7 @@ namespace Castalia.WEB.Controllers
                     IsBlocked = false,
                     LearnerName = FullName
                 };
-
+                //creating new record to the DB
                 currentUser = new NicknameName() {
                     UserName = HttpContext.User.Identity.Name,
                     Learner=learner
@@ -86,7 +68,8 @@ namespace Castalia.WEB.Controllers
                 UO.Save();
                 return View("Index", currentUser);
             }
-                return View("Index");
+            // If we got this far, something failed, redisplay form
+            return View("Index");
         }
 
     }

@@ -28,13 +28,14 @@ namespace Castalia.WEB.Controllers
         {
 
             ViewBag.sortingParam = sortingParam;
-
+            //Selection of courses according sorting param
             var courses = UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam);
 
             //initializing view model
             CourseListViewModel model = CourseListInitializer(sortOrder, sortingParam, page);
             model.PagingInfo.TotalItems = courses.Count();
+
             //select courses that fit the paging condition
             model.Courses = SortingCourses(courses, sortOrder)
                    .Skip((page - 1) * PageSize)
@@ -43,13 +44,13 @@ namespace Castalia.WEB.Controllers
             //opportunity for learner to register on course
             if (User.IsInRole("user"))
             {
-            var a = UO.NickName.GetAll()
+                //in case if user don`t finish registration 
+                //redirect him to view that gives that information 
+            var learnerName = UO.NickName.GetAll()
                    .Where(m => m.UserName == HttpContext.User.Identity.Name)
                    .FirstOrDefault() ?? throw new NotConfirmedNameException(HttpContext.User.Identity.Name);
                 model.StudentRefisterPosibility = StudentRefisterPosibility(model.Courses);
-
             }
-
             return View("TopicView", model);
         }
 
@@ -59,9 +60,10 @@ namespace Castalia.WEB.Controllers
         [NotConfirmedNameException]
         public ViewResult SelectionByTeacher(string sortingParam, string sortOrder, int page = 1)
         {
-           
-            //initializing view model
+            //return to the view sorting param to informate about current possition 
             ViewBag.sortingParam = sortingParam;
+
+            //initializing view model
             CourseListViewModel model = CourseListInitializer(sortOrder, sortingParam, page);
             model.Courses = SortingCourses(GetCourses(sortingParam), sortOrder).ToList();
             model.PagingInfo.TotalItems = model.Courses.Count();
@@ -82,7 +84,7 @@ namespace Castalia.WEB.Controllers
             return View("TeacherView", model);
         }
 
-        //redirect for unexpected casess
+        //redirect only for unexpected casess
         public ActionResult Index()
         {
             return RedirectToAction("SelectionByTopic");
@@ -95,7 +97,8 @@ namespace Castalia.WEB.Controllers
             sortedParam.Add(sortOrder == "name" ? "name_desc" : "name", sortOrder == "name" ? "Names (A-Z)" : "Names (Z-A)");
             sortedParam.Add(sortOrder == "duration" ? "duration_desc" : "duration", sortOrder == "duration" ? "Less duratoion" : "Greater duration");
             sortedParam.Add(sortOrder == "amount" ? "amount_desc" : "amount", sortOrder == "amount" ? "Amount of students ascending" : "Amount of students descending");
-
+            
+            //filling view model
             return new CourseListViewModel()
             {
                 PagingInfo = new PagingInfo
@@ -141,13 +144,13 @@ namespace Castalia.WEB.Controllers
         }
 
         /// <summary>
-        /// geting list of courses dispite courses without teacher
+        /// geting list of courses besides courses without teacher
         /// </summary>
         public IEnumerable<Course> GetCourses(string sortParam)
         {
             var courses = UO.Courses.GetAll();
             if (!String.IsNullOrEmpty(sortParam))
-            {
+            {//Filling list of courses besides null object of teacher
                 List<Course> requiredCourses = new List<Course>();
                 foreach (var course in courses)
                 {
@@ -161,17 +164,14 @@ namespace Castalia.WEB.Controllers
         /// <summary>
         /// initializing dictionary that give information about current student according exact course
         /// </summary>
-        
         public Dictionary<int, bool> StudentRefisterPosibility(List<Course> courses)
         {
-            //try
-            //{
-            
+            //geting current full name of the students
                 string currentStudent = UO.NickName.GetAll()
                     .Where(m => m.UserName == HttpContext.User.Identity.Name)
                     .First().Learner.LearnerName;
                 Dictionary<int, bool> studentRefisterPosibility = new Dictionary<int, bool>();
-
+            //Fill the dictionary according with student possibility to register on course
                 foreach (var course in courses)
                 {
                     bool registerPosibility = UO.Logs.GetAll()
@@ -180,13 +180,6 @@ namespace Castalia.WEB.Controllers
                     studentRefisterPosibility.Add(course.Id, !registerPosibility);
                 }
                 return studentRefisterPosibility;
-            //}
-            //catch(Exception e)
-            //{
-            //    throw new NotConfirmedNameException(HttpContext.User.Identity.Name,e);
-            //}
-           
-
         }
 
     }

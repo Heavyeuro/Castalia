@@ -23,7 +23,7 @@ namespace Castalia.WEB.Controllers
         public PartialViewResult MenuTopic(string sortingParam = null)
         {
             ViewBag.SelectedTopic = sortingParam;
-
+            //geting all topics that bounded with courses
             IEnumerable<string> topics = repository.Courses.GetAll()
                 .Select(p => p.Topic.TopicName)
                 .Distinct()
@@ -37,8 +37,9 @@ namespace Castalia.WEB.Controllers
         public PartialViewResult MenuTeacher(string sortingParam = null)
         {
             ViewBag.SelectedTeacher = sortingParam;
-            IEnumerable<string> topics = repository.Teachers.GetAll().Select(p => p.TeacherName).Distinct();
-            return PartialView(topics);
+            //geting all names of the teachers that bounded with courses
+            IEnumerable<string> teacherName = repository.Teachers.GetAll().Select(p => p.TeacherName).Distinct();
+            return PartialView(teacherName);
         }
     }
 }
