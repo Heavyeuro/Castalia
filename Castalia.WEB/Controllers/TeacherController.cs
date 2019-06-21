@@ -31,6 +31,8 @@ namespace Castalia.WEB.Controllers
             if (TempData["CustomError"] != null)
                 ModelState.AddModelError("Mark", TempData["CustomError"].ToString());
 
+
+            //initializing view model
             LearnerViewModel learnerView = new LearnerViewModel()
             {
                 CoursesList = new List<string>(),
@@ -43,15 +45,17 @@ namespace Castalia.WEB.Controllers
                 }
             };
 
+            var courses = UO.Courses.GetAll();
             //select course name according current name
             if (currCourse == null)
-                learnerView.CurrentCourse = UO.Courses.GetAll().Where(x => x.Teacher.TeacherName == teacherName).First().CourseName;
+                learnerView.CurrentCourse = courses.Where(x => x.Teacher.TeacherName == teacherName).First().CourseName;
 
+            //geting log records according current teacher
             foreach (var log in UO.Logs.GetAll().Where(x => x.Course.CourseName == learnerView.CurrentCourse))
                 learnerView.logs.Add(log);
             learnerView.PagingInfo.TotalItems = learnerView.logs.Count();
 
-            var courses = UO.Courses.GetAll();
+            //skiping courses without teaches
             foreach (var course in courses)
                 if ((course.Teacher != null) && (course.Teacher.TeacherName == teacherName))
                     learnerView.CoursesList.Add(course.CourseName);
