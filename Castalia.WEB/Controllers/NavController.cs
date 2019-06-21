@@ -10,7 +10,6 @@ namespace Castalia.WEB.Controllers
 
     public class NavController : Controller
     {
-
         private IUnitOfWork repository;
 
         public NavController(IUnitOfWork repo)

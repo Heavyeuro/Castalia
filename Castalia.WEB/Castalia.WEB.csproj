@@ -226,6 +226,7 @@
     <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Infrastructure\BlockedStudentExceptionAttribute.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Infrastructure\NotConfirmedNameExeptionAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CourseViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -354,6 +355,7 @@
     <Content Include="Views\SelfCabinet\Index.cshtml" />
     <Content Include="Views\Teacher\TeacherListPartial.cshtml" />
     <Content Include="Views\Shared\BlockedStudentError.cshtml" />
+    <Content Include="Views\Shared\NotConfirmedNameError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

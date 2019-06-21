@@ -35,22 +35,24 @@
                     break;
                 case "finished":
                     <p class="card-text">
-                        Your mark:  @if (log.Mark == null)
-                        {
+                        Your mark:
+                    </p>
+                    if (log.Mark == null)
+                    {
                         <p class="text-danger"> Inform your teacher about need for mark</p>}
                     else
                     {@log.Mark}
-                        </p>
-                        break;
-                    case "inProgress":
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                 aria-valuenow=@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))
-                                 aria-valuemin="0" aria-valuemax="100" style="width:@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))%"></div>
-                        </div>
 
-                        break;
-                }
+                break;
+            case "inProgress":
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                         aria-valuenow=@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))
+                         aria-valuemin="0" aria-valuemax="100" style="width:@Html.Raw(Convert.ToInt32((DateTime.Now - log.Course.StartDate).TotalDays * 100 / log.Course.DurationDays))%"></div>
+                </div>
+
+                break;
+        }
         </div>
     </section>
 }

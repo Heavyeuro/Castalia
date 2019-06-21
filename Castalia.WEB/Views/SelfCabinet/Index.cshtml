@@ -1,7 +1,45 @@
-﻿
+﻿@model Castalia.Domain.Entities.NicknameName
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+
+@if (Model == null)
+{
+    @Html.Raw("You role is \"learner\", your nickname is ")@User.Identity.Name
+    <p>To continue work you must confirm your full name.</p>
+    using (Html.BeginForm("AddFullName", "SelfCabinet", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label class="col-form-label" for="inputDefault">Please, enter your full name</label>
+            <input type="text" class="form-control" name="FullName" id="inputDefault">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary">Confirm </button>
+            </div>
+        </div>
+    }
+}
+else
+{
+
+    if (User.IsInRole("user"))
+    {
+        <p>Hey, @User.Identity.Name</p>
+        @Html.Raw(" You role is \"learner\", your full name is ")@Model.Learner.LearnerName
+    }
+
+    if (User.IsInRole("admin"))
+    {@Html.Raw("You role is \"admin\", your full name is Bruce Almighty, and you can do you want")}
+
+if (User.IsInRole("teacher"))
+{
+        <p>Hey, @User.Identity.Name</p>
+        @Html.Raw("You role is teacher, your full name is ")@Model.Teacher.TeacherName}
+}
 

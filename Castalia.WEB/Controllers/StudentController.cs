@@ -23,12 +23,16 @@ namespace Castalia.WEB.Controllers
         }
 
         //GET 
+        [NotConfirmedNameException]
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
+            var a = UO.NickName.GetAll()
+                   .Where(m => m.UserName == HttpContext.User.Identity.Name)
+                   .FirstOrDefault() ?? throw new NotConfirmedNameException(HttpContext.User.Identity.Name);
             string learnerName 
                 = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
-                .First().Learner.LearnerName;
+                .FirstOrDefault().Learner.LearnerName;
 
             //initializing view model for exact learner 
             LogViewModel logModel = new LogViewModel()
@@ -56,7 +60,7 @@ namespace Castalia.WEB.Controllers
 
             var currentStudent = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
-                .First().Learner;
+                .FirstOrDefault().Learner;
 
             //In case if student is blocked deny access for him
             if (currentStudent.IsBlocked)
