@@ -25,7 +25,8 @@ namespace Castalia.WEB.Controllers
         //GET 
         public ActionResult StudentsCourses(string courseStatus, int page = 1)
         {
-            string learnerName = UO.NickName.GetAll()
+            string learnerName 
+                = UO.NickName.GetAll()
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .First().Learner.LearnerName;
 
@@ -40,25 +41,10 @@ namespace Castalia.WEB.Controllers
                 }
             };
             //sorting courses according date
-            switch (logModel.CourseStatus)
-            {
-                case "notStarted":
-                    logModel.Logs = UO.Logs.GetAll().Where(x =>  x.Lerner.LearnerName == learnerName
-                    && x.Course.StartDate > DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-                    break;
-                case "finished":
-                    logModel.Logs = UO.Logs.GetAll().Where(x =>  x.Lerner.LearnerName == learnerName
-                    && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-                    break;
-                case "inProgress":
-                    logModel.Logs = UO.Logs.GetAll().Where(x=> x.Lerner.LearnerName == learnerName
-                    && x.Course.StartDate < DateTime.Now && x.Course.StartDate.AddDays(x.Course.DurationDays) > DateTime.Now)
-                    .Skip((page - 1) * PageSize).Take(PageSize).ToList();
-                    break;
-            }
-            List<Log> logs = UO.Logs.GetAll().Where(x => x.Mark != null && x.Lerner.LearnerName == learnerName
-                    && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).Skip((page - 1) * PageSize).Take(PageSize).ToList();
-
+            logModel.Logs = SortLogs(logModel.CourseStatus,learnerName)
+                .Skip((page - 1) * PageSize).Take(PageSize).ToList();
+            
+   
             logModel.PagingInfo.TotalItems = logModel.Logs.Count();
             return View(logModel);
         }
@@ -72,13 +58,13 @@ namespace Castalia.WEB.Controllers
                 .Where(m => m.UserName == HttpContext.User.Identity.Name)
                 .First().Learner;
 
+            //In case if student is blocked deny access for him
             if (currentStudent.IsBlocked)
                 throw new BlockedStudentException(currentStudent.LearnerName); 
             
-
             //initializing model for registration
             Course course = UO.Courses.Get(Id);
-            if (course.StartDate > DateTime.Now )//&& !currentStudent.IsBlocked)
+            if (course.StartDate > DateTime.Now )
             {
                 Log log = new Log()
                 {
@@ -87,7 +73,7 @@ namespace Castalia.WEB.Controllers
                     Course = course
                 };
                 UO.Logs.Create(log);
-                //adding 1 to amouny of students
+                //adding 1 to amount of students in course
                 course.AmountOfStudents++;
                 UO.Save();
                 TempData["message"] = string.Format("Successful registration on course\"{0}\" !", course.CourseName);
@@ -98,5 +84,27 @@ namespace Castalia.WEB.Controllers
 
             return RedirectToAction("SelectionByTopic", "Home", null);
         }
-    }
+
+
+        public List<Log> SortLogs(string CourseStatus, string learnerName)
+        {
+            List<Log> logs=new List<Log>(); 
+            switch (CourseStatus)
+            {
+                case "notStarted":
+                    logs = UO.Logs.GetAll().Where(x => (x.Lerner.LearnerName == learnerName)
+                    && x.Course.StartDate > DateTime.Now).ToList();
+                    break;
+                case "finished":
+                    logs = UO.Logs.GetAll().Where(x => x.Lerner.LearnerName == learnerName
+                    && x.Course.StartDate.AddDays(x.Course.DurationDays) < DateTime.Now).ToList();
+                    break;
+                case "inProgress":
+                    logs = UO.Logs.GetAll().Where(x=> x.Lerner.LearnerName == learnerName
+                    && (x.Course.StartDate<DateTime.Now) &&(x.Course.StartDate.AddDays(x.Course.DurationDays)) > DateTime.Now).ToList();
+                    break;
+            }
+            return logs;
+        }
+}
 }

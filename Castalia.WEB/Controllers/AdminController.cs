@@ -54,20 +54,20 @@ namespace Castalia.WEB.Controllers
             {//creating new instance in adding case
                 Course courses;
                 if (Id != 0)
-                   courses = UO.Courses.Get(course.Id);
-                else  courses = new Course();
+                    courses = UO.Courses.Get(course.Id);
+                else courses = new Course();
 
                 courses.DurationDays = course.DurationDays;
                 courses.CourseName = course.CourseName;
                 courses.StartDate = course.StartDate;
-                
+
                 //if topic exist retriving it from DB otherwise creating new
                 if (UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).Count() > 0)
                     courses.Topic = UO.Topics.Get(UO.Topics.GetAll().Where(x => x.TopicName == course.Topic).First().Id);
                 else courses.Topic = new Topic { TopicName = course.Topic };
                 UO.Courses.Update(courses);
                 UO.Save();
-                
+
                 TempData["message"] = string.Format("Changes in course \"{0}\" was saved", course.CourseName);
                 return RedirectToAction("Index");
             }
@@ -90,14 +90,14 @@ namespace Castalia.WEB.Controllers
 
             TempData["message"] = string.Format("Course \"{0}\" was deleted", deletedCourse);
 
-             return View("Index",UO.Courses.GetAll());
+            return View("Index", UO.Courses.GetAll());
         }
 
         [HttpGet]
         public ActionResult LearnerList(int page = 1)
         {
             //creating instance of view model
-            return View( new LearnerListViewModel()
+            return View(new LearnerListViewModel()
             {
                 Learners = UO.Learners.GetAll().Skip((page - 1) * PageSize)
                    .Take(PageSize),
@@ -110,7 +110,7 @@ namespace Castalia.WEB.Controllers
             });
         }
 
-        public ActionResult ManagingStudents(int Id, int page=1)
+        public ActionResult ManagingStudents(int Id, int page = 1)
         {
             //reversing value of isClocked of the exact learner
             UO.Learners.Get(Id).IsBlocked = !UO.Learners.Get(Id).IsBlocked;
@@ -124,14 +124,15 @@ namespace Castalia.WEB.Controllers
             //Checking for validation error
             if (String.IsNullOrEmpty(teacherName))
                 TempData["CustomError"] = "Please enter teacher name";
-                
+
             if (UO.Teachers.GetAll().Where(x => x.TeacherName == teacherName).FirstOrDefault() != null)
                 TempData["CustomError"] = "You can`t add existing teacher";
 
-            if (teacherName.All(x => !(char.IsLetter(x) || char.IsWhiteSpace(x)||x=='-')))
+            if (teacherName.All(x => !(char.IsLetter(x) || char.IsWhiteSpace(x) || x == '-')))
                 TempData["CustomError"] = "Unacceptable symbols detected";
+
             //if no one error ocured adding to DB
-            if (TempData["CustomError"]==null)
+            if (TempData["CustomError"] == null)
             {
                 UO.Teachers.Create(new Teacher() { TeacherName = teacherName });
                 UO.Save();
@@ -145,7 +146,7 @@ namespace Castalia.WEB.Controllers
             //checkig for validation error
             if (TempData["CustomError"] != null)
                 ModelState.AddModelError("", TempData["CustomError"].ToString());
-            
+
             CourseListViewModel courseList = new CourseListViewModel()
             {
                 Teachers = UO.Teachers.GetAll().ToList(),
@@ -156,7 +157,7 @@ namespace Castalia.WEB.Controllers
                     ItemsPerPage = PageSize
                 }
             };
-            courseList.PagingInfo.TotalItems= courseList.Courses.Count();
+            courseList.PagingInfo.TotalItems = courseList.Courses.Count();
 
             return View(courseList);
         }

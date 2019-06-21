@@ -24,13 +24,14 @@ namespace Castalia.WEB.Controllers
         /// </summary>
         public ViewResult SelectionByTopic(string sortingParam, string sortOrder, int page = 1)
         {
+            ViewBag.sortingParam = sortingParam;
+
             var courses = UO.Courses.GetAll()
                    .Where(p => sortingParam == null || p.Topic.TopicName == sortingParam);
             
             //initializing view model
             CourseListViewModel model = CourseListInitializer( sortOrder, sortingParam, page);
             model.PagingInfo.TotalItems= courses.Count();
-            ViewBag.sortingParam = sortingParam;
             //select courses that fit the paging condition
             model.Courses = SortingCourses(courses, sortOrder)
                    .Skip((page - 1) * PageSize)
@@ -133,7 +134,7 @@ namespace Castalia.WEB.Controllers
                 List<Course> requiredCourses = new List<Course>();
                 foreach (var course in courses)
                 {
-                    if (course.Teacher != null && course.Teacher.TeacherName == sortParam) requiredCourses.Add(course);
+                    if ( (course.Teacher != null) && (course.Teacher.TeacherName == sortParam) ) requiredCourses.Add(course);
                 }
                 return requiredCourses;
             }
@@ -154,7 +155,7 @@ namespace Castalia.WEB.Controllers
             foreach (var course in courses)
             {
                 bool registerPosibility = UO.Logs.GetAll()
-                    .Where(x => x.Lerner.LearnerName == currentStudent && x.Course.CourseName == course.CourseName)
+                    .Where(x => (x.Lerner.LearnerName == currentStudent) && (x.Course.CourseName == course.CourseName))
                     .Count() != 0;
                 studentRefisterPosibility.Add(course.Id, !registerPosibility);
             }

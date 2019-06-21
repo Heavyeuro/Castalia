@@ -53,7 +53,7 @@ namespace Castalia.WEB.Controllers
 
             var courses = UO.Courses.GetAll();
             foreach (var course in courses)
-                if (course.Teacher != null && course.Teacher.TeacherName == teacherName)
+                if ((course.Teacher != null) && (course.Teacher.TeacherName == teacherName))
                     learnerView.CoursesList.Add(course.CourseName);
             
             //selecting logs according page context
